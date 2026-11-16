@@ -1,0 +1,89 @@
+schemaVersion: perfeval.scenario.v1
+project: PerMobile
+scenarioId: android_cm001_overhead
+description: CM-001 sampling overhead comparison run (no screenrecord/perfetto; alternate --sampling-off).
+gui:
+  quickStart: false
+
+apps:
+  - id: target
+    platform: android
+    packageName: com.android.settings
+    versionName: overhead
+    versionCode: 0
+
+devices:
+  - id: android_lab
+    platform: android
+    selector:
+      serial: auto
+    tags: [android, lab]
+
+run:
+  repeats: 1
+  warmups: 0
+  mode: same_device_versions
+  install:
+    clearData: false
+    reinstall: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 30000
+  steps:
+    - type: idle
+      durationMs: 500
+    - type: swipe
+      startX: 540
+      startY: 1800
+      endX: 540
+      endY: 500
+      durationMs: 300
+      repeat: 6
+      intervalMs: 400
+    - type: idle
+      durationMs: 8000
+    - type: swipe
+      startX: 540
+      startY: 500
+      endX: 540
+      endY: 1800
+      durationMs: 300
+      repeat: 6
+      intervalMs: 400
+    - type: idle
+      durationMs: 8000
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: false
+      durationMs: 0
+    screenRecord:
+      enabled: false
+    samplers:
+      mem:
+        enabled: auto
+        intervalMs: 1000
+      cpu:
+        enabled: auto
+        intervalMs: 1000
+      net:
+        enabled: auto
+        intervalMs: 1000
+      power:
+        enabled: auto
+        intervalMs: 1000
+      gpu_thermal:
+        enabled: auto
+        intervalMs: 1000
+
+budgets:
+  frame.duration.p95.ms:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 5

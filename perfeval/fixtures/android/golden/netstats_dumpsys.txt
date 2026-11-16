@@ -1,0 +1,35 @@
+Dev stats:
+  Pending bytes:
+  History since boot:
+Xt stats:
+  Pending bytes: 1350690
+  History since boot:
+  ident=[{type=0, ratType=-2, subscriberId=234102..., ROAMING, metered=false, defaultNetwork=false, oemManaged=OEM_NONE, subId=4, transports={0}}] uid=-1 set=ALL tag=0x0
+    NetworkStatsHistory: bucketDuration=3600
+      st=1788764400 rb=7975 rp=34 tb=10571 tp=34 op=0
+      st=1788775200 rb=5692 rp=20 tb=7024 tp=18 op=0
+      st=1788782400 rb=104 rp=1 tb=0 tp=0 op=0
+      st=1788786000 rb=7992 rp=22 tb=7940 tp=18 op=0
+      st=1788793200 rb=7543 rp=19 tb=7758 tp=18 op=0
+      st=1788796800 rb=641 rp=5 tb=478 tp=3 op=0
+      st=1788800400 rb=104 rp=1 tb=0 tp=0 op=0
+      st=1788804000 rb=7992 rp=22 tb=7940 tp=18 op=0
+      st=1788814800 rb=8096 rp=23 tb=8056 tp=19 op=0
+      st=1788818400 rb=104 rp=1 tb=0 tp=0 op=0
+      st=1788825600 rb=8192 rp=24 tb=8164 tp=20 op=0
+      st=1788836400 rb=8296 rp=25 tb=8156 tp=20 op=0
+      st=1788847200 rb=288 rp=3 tb=96 tp=1 op=0
+      st=1788886800 rb=480 rp=5 tb=312 tp=3 op=0
+  ident=[{type=0, ratType=13, subscriberId=234102..., ROAMING, metered=false, defaultNetwork=false, oemManaged=OEM_NONE, subId=4, transports={0}}] uid=-1 set=ALL tag=0x0
+    NetworkStatsHistory: bucketDuration=3600
+      st=1788847200 rb=7852 rp=19 tb=7960 tp=18 op=0
+      st=1788854400 rb=7280 rp=19 tb=7307 tp=16 op=0
+      st=1788858000 rb=824 rp=4 tb=641 tp=2 op=0
+      st=1788865200 rb=8288 rp=25 tb=8248 tp=21 op=0
+      st=1788872400 rb=104 rp=1 tb=0 tp=0 op=0
+      st=1788876000 rb=8192 rp=24 tb=8164 tp=20 op=0
+      st=1788886800 rb=7712 rp=19 tb=7844 tp=17 op=0
+
+Top openSession callers:
+  {uid=10345,package=com.tencent.mm}=10117
+  {uid=1000,package=android}=6164

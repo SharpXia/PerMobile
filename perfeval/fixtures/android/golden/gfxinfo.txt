@@ -1,0 +1,15 @@
+Applications Graphics Acceleration Info:
+Uptime: 123456 Realtime: 123456
+
+** Graphics info for pid 12345 [com.perfeval.fixture] **
+
+Stats since: 1234567890ns
+Total frames rendered: 100
+Janky frames: 12 (12.00%)
+50th percentile: 8ms
+90th percentile: 18ms
+95th percentile: 24ms
+99th percentile: 50ms
+Number Missed Vsync: 4
+Number Slow UI thread: 3
+

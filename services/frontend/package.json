@@ -1,0 +1,28 @@
+{
+  "name": "permobile-frontend",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "PD-001 perfdog-parity M1 前端竖切片（PerfDog 实时监控看板对标）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "lint:isolation": "node scripts/check-frontend-isolation.mjs",
+    "check:matrix": "node scripts/check-frontend-ios-matrix.mjs"
+  },
+  "dependencies": {
+    "echarts": "^6.1.0",
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "eslint": "^9.39.0",
+    "eslint-plugin-vue": "^10.12.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
+    "vue-tsc": "^3.3.14"
+  }
+}

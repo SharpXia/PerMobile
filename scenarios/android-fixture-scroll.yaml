@@ -1,0 +1,83 @@
+schemaVersion: perfeval.scenario.v1
+project: PerMobile
+scenarioId: android_fixture_scroll
+description: Android fixture scroll jank with swipe interaction.
+gui:
+  quickStart: false
+
+apps:
+  - id: baseline
+    platform: android
+    packageName: com.perfeval.fixture
+    artifact: ./fixtures/android-fixture/baseline.apk
+    versionName: 1.0.0
+    versionCode: 100
+  - id: candidate
+    platform: android
+    packageName: com.perfeval.fixture
+    artifact: ./fixtures/android-fixture/candidate.apk
+    versionName: 1.0.1
+    versionCode: 101
+
+devices:
+  - id: android_lab
+    platform: android
+    selector:
+      serial: auto
+    tags: [android, lab]
+
+run:
+  repeats: 5
+  warmups: 1
+  mode: same_device_versions
+  install:
+    clearData: true
+    reinstall: true
+
+flow:
+  driver: adb_script
+  timeoutMs: 30000
+  steps:
+    - type: idle
+      durationMs: 1000
+    - type: manual
+      prompt: "【人工步骤 1/1】应用已由工具自动启动。请在设备上导航到目标页面并停留；完成后回来按 Enter——工具将清空帧统计并自动执行 5 次滑动（期间请勿触碰设备；取消可按 Ctrl+C）。"
+    - type: reset_gfxinfo
+    - type: swipe
+      startX: 540
+      startY: 1600
+      endX: 540
+      endY: 400
+      durationMs: 300
+      repeat: 5
+      intervalMs: 500
+    - type: idle
+      durationMs: 1000
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: auto
+      durationMs: 20000
+
+budgets:
+  frame.jank_rate:
+    direction: lower_better
+    warnAbs: 0.05
+    failAbs: 0.10
+    warnRegressionAbs: 0.02
+    failRegressionAbs: 0.05
+    minDeltaAbs: 0.01
+  frame.duration.p95.ms:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 5
+  memory.pss.peak_mb:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30

@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "jank_regression",
+  "compareId": "compare-jank_regression",
+  "expectedOutcome": "fail",
+  "metrics": {
+    "frame.jank_rate": {
+      "baseline": {
+        "mad": 0.0009999999999999974,
+        "median": 0.03,
+        "n": 5,
+        "p90": 0.032
+      },
+      "candidate": {
+        "mad": 0.0010000000000000009,
+        "median": 0.119,
+        "n": 5,
+        "p90": 0.123
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 0.089,
+        "pct": 2.9667
+      },
+      "judgement": "fail",
+      "reason": "candidate_jank_rate_exceeds_regression_threshold"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "fail"
+}

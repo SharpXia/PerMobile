@@ -1,0 +1,77 @@
+schemaVersion: perfeval.scenario.v1
+project: PerMobile
+scenarioId: android_current_page_manual_scroll
+description: Android current visible page manual scroll performance check.
+memoryProfile: heavy
+gui:
+  quickStart: false
+
+apps:
+  - id: target
+    platform: android
+    packageName: com.example.app
+    versionName: manual
+    versionCode: 0
+
+devices:
+  - id: android_lab
+    platform: android
+    selector:
+      serial: auto
+    tags: [android, lab, manual]
+
+run:
+  repeats: 1
+  warmups: 0
+  mode: same_device_versions
+  install:
+    clearData: false
+    reinstall: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 60000
+  steps:
+    - type: manual
+      prompt: "【人工步骤 1/2】应用已由工具自动启动，采样正在后台记录。请在设备上手动导航到目标页面并停留；完成后回来按 Enter——工具将清空帧统计（gfxinfo reset）并进入滑动窗口。"
+    - type: reset_gfxinfo
+    - type: manual
+      prompt: "【人工步骤 2/2】请现在在设备上手动滑动目标页面；结束后回来按 Enter——工具将停止采样与录屏（若已开启）并采集收尾数据、生成报告。"
+      timeoutMs: 60000
+    - type: idle
+      durationMs: 500
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: false
+      durationMs: 0
+    samplers:
+      mem:
+        enabled: auto
+        intervalMs: 2000
+
+budgets:
+  frame.jank_rate:
+    direction: lower_better
+    warnAbs: 0.05
+    failAbs: 0.10
+    warnRegressionAbs: 0.02
+    failRegressionAbs: 0.05
+    minDeltaAbs: 0.01
+  frame.duration.p95.ms:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 5
+  memory.pss.peak_mb:
+    direction: lower_better
+    ratingAbs: [700, 1200, 1800]
+    warnAbs: 1200
+    failAbs: 1800
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30

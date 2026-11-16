@@ -1,0 +1,34 @@
+# PerfEval Desktop 打包配置（electron-builder 26；无构建步骤，主进程/preload 原样进包）
+appId: local.perfeval.desktop
+productName: PerfEval Desktop
+directories:
+  output: dist
+  buildResources: build
+
+# 无运行时依赖（electron/electron-builder 均为 devDependencies，electron-builder 自动剔除），
+# 只需主进程与 preload 两个入口文件；backend/ 走 extraResources，不进 asar。
+files:
+  - main.js
+  - preload.js
+  - package.json
+
+# 预留后端 sidecar 目录（可暂空，见 backend/README.md）：
+#   services/desktop/backend/* → <应用>/Resources/backend/
+#   macOS: PerfEval Desktop.app/Contents/Resources/backend/
+extraResources:
+  - from: backend
+    to: backend
+    filter:
+      - "**/*"
+
+mac:
+  identity: null # 不做签名/公证，本地分发
+  category: public.app-category.developer-tools
+  target:
+    - dir
+    - dmg
+
+win:
+  target:
+    - nsis
+    - dir

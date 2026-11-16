@@ -1,0 +1,59 @@
+schemaVersion: perfeval.scenario.v1
+project: PerfEval Lite
+scenarioId: quick_smoothness
+description: Quick Android current-page smoothness check.
+memoryProfile: mainstream
+
+apps:
+  - id: target
+    platform: android
+
+run:
+  repeats: 3
+  mode: same_device_versions
+  install:
+    clearData: false
+    reinstall: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 90000
+  steps:
+    - type: launch
+    - type: manual
+      prompt: "请在设备上打开要测试的页面，准备完成后点击继续。"
+      timeoutMs: 60000
+    - type: reset_gfxinfo
+    - type: manual
+      prompt: "请执行固定的滑动操作，完成后点击继续开始采集。"
+      timeoutMs: 60000
+    - type: idle
+      durationMs: 1000
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: false
+      durationMs: 0
+
+budgets:
+  frame.jank_rate:
+    direction: lower_better
+    warnAbs: 0.05
+    failAbs: 0.10
+    warnRegressionAbs: 0.02
+    failRegressionAbs: 0.05
+    minDeltaAbs: 0.01
+  frame.duration.p95.ms:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 5
+  memory.pss.peak_mb:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30

@@ -1,0 +1,2 @@
+06-25 10:30:00.000 12345 12345 I PerfEval  : PERFEVAL_EVENT {"type":"metric","name":"startup.cold.ms","value":1234,"unit":"ms","direction":"lower_better","launchState":"cold"}
+06-25 10:30:00.500 12345 12345 I ActivityManager: Displayed com.perfeval.fixture/.MainActivity: +1s234ms

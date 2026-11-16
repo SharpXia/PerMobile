@@ -1,0 +1,74 @@
+schemaVersion: perfeval.scenario.v1
+project: YourProject
+scenarioId: android_version_ab
+description: Compare one baseline with one or more Android candidate APKs using a reusable interactive flow.
+memoryProfile: mainstream
+gui:
+  quickStart: false
+
+apps:
+  - id: baseline
+    platform: android
+  - id: candidate
+    platform: android
+  # 可继续添加 candidate-2、candidate-3；也可通过重复 --candidate-apk ID=PATH 动态传入。
+  # ID 建议仅使用英文字母、数字、点、下划线和连字符，并避开 Windows 保留文件名。
+
+run:
+  mode: same_device_versions
+  repeats: 5
+  install:
+    clearData: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 90000
+  steps:
+    - type: launch
+    - type: manual
+      prompt: "【人工步骤 1/2】应用已由工具自动启动。请将应用导航到目标操作的固定起点；完成后回来按 Enter——工具将清空帧统计并等待你的目标操作。"
+      timeoutMs: 60000
+    - type: reset_gfxinfo
+    - type: manual
+      prompt: "【人工步骤 2/2】请现在执行一次固定的目标操作；结束后回来按 Enter——工具将结束采集窗口、采集收尾数据并生成报告。"
+      timeoutMs: 60000
+    - type: idle
+      durationMs: 1000
+
+metricContract:
+  required:
+    - frame.jank_rate
+    - frame.duration.p95.ms
+    - memory.pss.peak_mb
+    - stability.crash.count
+    - stability.anr.count
+
+budgets:
+  frame.jank_rate:
+    direction: lower_better
+    unit: ratio
+    warnAbs: 0.05
+    failAbs: 0.10
+    warnRegressionAbs: 0.02
+    failRegressionAbs: 0.05
+    minDeltaAbs: 0.01
+  frame.duration.p95.ms:
+    direction: lower_better
+    unit: ms
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 5
+  memory.pss.peak_mb:
+    direction: lower_better
+    unit: MB
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30
+  stability.crash.count:
+    direction: lower_better
+    unit: count
+    failAbs: 0.5
+  stability.anr.count:
+    direction: lower_better
+    unit: count
+    failAbs: 0.5

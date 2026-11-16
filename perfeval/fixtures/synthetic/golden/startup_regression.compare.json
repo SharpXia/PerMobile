@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "startup_regression",
+  "compareId": "compare-startup_regression",
+  "expectedOutcome": "fail",
+  "metrics": {
+    "startup.cold.ms": {
+      "baseline": {
+        "mad": 3.0,
+        "median": 1000.0,
+        "n": 5,
+        "p90": 1004.0
+      },
+      "candidate": {
+        "mad": 10.0,
+        "median": 1250.0,
+        "n": 5,
+        "p90": 1265.0
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 250.0,
+        "pct": 0.25
+      },
+      "judgement": "fail",
+      "reason": "candidate_median_exceeds_regression_threshold"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "fail"
+}

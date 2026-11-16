@@ -1,0 +1,28 @@
+{
+ "info": {
+  "arguments": [
+   "devicectl",
+   "device",
+   "info",
+   "lockState",
+   "--device",
+   "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20",
+   "--json-output",
+   "/tmp/realios_recon/lockstate.json",
+   "--timeout",
+   "30"
+  ],
+  "commandType": "devicectl.device.info.lockState",
+  "environment": {
+   "TERM": "dumb"
+  },
+  "jsonVersion": 5,
+  "outcome": "success",
+  "version": "651.32"
+ },
+ "result": {
+  "deviceIdentifier": "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20",
+  "passcodeRequired": true,
+  "unlockedSinceBoot": true
+ }
+}

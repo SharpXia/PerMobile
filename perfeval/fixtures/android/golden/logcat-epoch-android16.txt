@@ -1,0 +1,6 @@
+--------- beginning of main
+         1793719324.237  6168  6168 W libbinder.BackendUnifiedServiceManager: Thread Pool max thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. serviceName: SurfaceFlinger
+         1793719324.238  1891  2047 D surfaceflinger: Dumping TimeStats as text
+         1793719324.275  4291  4291 I adbd    : adbd service requested 'shell,v2,TERM=dumb:export ANDROID_LOG_TAGS=''; exec logcat '-T' '5' '-v' 'epoch' '-d''
+         1793719324.276  1876  2797 I SoundAlive_SRC384 arch64: SoundAlive_SRC384: Instance 9929 Init(outFs 8, InFs 7, chnum 2, outBW 3, inBW 3)
+         1793719324.277  1876  2797 I Samsung_SoundAlive_SRC_v330 arch64: SRC384 version AE_VER_Resampler_ver330_a64_2025-05-21

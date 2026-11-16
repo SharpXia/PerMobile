@@ -1,0 +1,74 @@
+{
+ "info": {
+  "arguments": [
+   "devicectl",
+   "device",
+   "info",
+   "apps",
+   "--device",
+   "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20",
+   "--json-output",
+   "/tmp/realios_recon/apps.json",
+   "--timeout",
+   "40"
+  ],
+  "commandType": "devicectl.device.info.apps",
+  "environment": {
+   "TERM": "dumb"
+  },
+  "jsonVersion": 5,
+  "outcome": "success",
+  "version": "651.32"
+ },
+ "result": {
+  "apps": [
+   {
+    "appClip": false,
+    "builtByDeveloper": true,
+    "bundleIdentifier": "com.perfeval.agenttool",
+    "bundleVersion": "1794797809",
+    "containerAccessible": true,
+    "defaultApp": false,
+    "hidden": false,
+    "internalApp": false,
+    "name": "AgentTool",
+    "removable": true,
+    "url": "file:///private/var/containers/Bundle/Application/DF249FCD-2051-41FA-9367-7CFA5D5C0C35/AgentTool.app/",
+    "version": "0.5.15"
+   },
+   {
+    "appClip": false,
+    "builtByDeveloper": true,
+    "bundleIdentifier": "com.perfeval.demo",
+    "bundleVersion": "8",
+    "containerAccessible": true,
+    "defaultApp": false,
+    "hidden": false,
+    "internalApp": false,
+    "name": "demo",
+    "removable": true,
+    "url": "file:///private/var/containers/Bundle/Application/0041AA81-5BAE-42B8-B9AB-80AD7C86D1A6/Runner.app/",
+    "version": "1.0.0"
+   },
+   {
+    "appClip": false,
+    "builtByDeveloper": true,
+    "bundleIdentifier": "com.perfeval.gamebox",
+    "bundleVersion": "4.3.4.1",
+    "containerAccessible": true,
+    "defaultApp": false,
+    "hidden": false,
+    "internalApp": false,
+    "name": "示例游戏",
+    "removable": true,
+    "url": "file:///private/var/containers/Bundle/Application/A2941535-D61A-4400-9044-3EA64FEC41F7/LangRen-tf.app/",
+    "version": "4.3.4"
+   }
+  ],
+  "defaultAppsIncluded": false,
+  "deviceIdentifier": "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20",
+  "hiddenAppsIncluded": false,
+  "internalAppsIncluded": false,
+  "removableAppsIncluded": true
+ }
+}

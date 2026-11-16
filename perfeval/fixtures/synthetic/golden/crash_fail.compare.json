@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "crash_fail",
+  "compareId": "compare-crash_fail",
+  "expectedOutcome": "fail",
+  "metrics": {
+    "stability.crash.count": {
+      "baseline": {
+        "mad": 0.0,
+        "median": 0.0,
+        "n": 5,
+        "p90": 0.0
+      },
+      "candidate": {
+        "mad": 0.0,
+        "median": 0.0,
+        "n": 5,
+        "p90": 1.0
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 0.0,
+        "pct": 0.0
+      },
+      "judgement": "fail",
+      "reason": "crash_count_non_zero"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "fail"
+}

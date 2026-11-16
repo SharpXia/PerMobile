@@ -1,0 +1,49 @@
+schemaVersion: perfeval.scenario.v1
+project: PerfEval Lite
+scenarioId: quick_memory
+description: Quick Android memory stability check.
+memoryProfile: mainstream
+
+apps:
+  - id: target
+    platform: android
+
+run:
+  repeats: 3
+  mode: same_device_versions
+  install:
+    clearData: false
+    reinstall: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 90000
+  steps:
+    - type: launch
+    - type: manual
+      prompt: "请进入要观察的页面并完成预热，准备完成后点击继续。"
+      timeoutMs: 60000
+    - type: idle
+      durationMs: 5000
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: false
+      durationMs: 0
+
+budgets:
+  memory.pss.peak_mb:
+    direction: lower_better
+    ratingAbs: [700, 1200, 1800]
+    warnAbs: 1200
+    failAbs: 1800
+  stability.crash.count:
+    direction: lower_better
+    failAbs: 0.5
+  stability.anr.count:
+    direction: lower_better
+    failAbs: 0.5

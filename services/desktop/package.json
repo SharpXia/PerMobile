@@ -1,0 +1,18 @@
+{
+  "name": "perfeval-desktop",
+  "productName": "PerfEval Desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "PerfEval Electron 桌面壳：BrowserWindow 装载 Vue3 前端 + FastAPI 后端 sidecar（lane: electron-shell）",
+  "author": "xxd",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:dir": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^44.9.1",
+    "electron-builder": "^26.18.0"
+  }
+}

@@ -1,0 +1,185 @@
+SurfaceFlinger TimeStats:
+Legacy stats are as follows:
+statsStart = 1793894534
+statsEnd = 1793894538
+totalFrames = 484
+missedFrames = 0
+clientCompositionFrames = 484
+clientCompositionReusedFrames = 0
+refreshRateSwitches = 0
+compositionStrategyChanges = 0
+compositionStrategyPredicted = 0
+compositionStrategyPredictionSucceeded = 0
+compositionStrategyPredictionFailed = 0
+displayOnTime = 4069 ms
+displayConfigStats is as below:
+totalP2PTime = 3872 ms
+presentToPresent histogram is as below:
+16ms=482 17ms=2
+averageFrameDuration = 5.086 ms
+
+Global aggregated jank payload (Timeline stats):
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+totalTimelineFrames = 482
+jankyFrames = 2
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 482
+sfDeadlineMisses histogram is as below:
+0ms=482
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10780
+layerName = com.perfeval.gamebox/com.perfeval.gamebox.activity.HomePageActivity$_32369#3127
+packageName =
+gameMode = Unsupported
+totalFrames = 124
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 123
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 123
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined
+averageFPS = 62.469
+present2present histogram is as below:
+16ms=123 17ms=1
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10780
+layerName = SurfaceView[com.perfeval.gamebox](BLAST)#3128
+packageName =
+gameMode = Unsupported
+totalFrames = 236
+droppedFrames = 1
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 235
+jankyFrames = 1
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 235
+SetFrameRate vote for this layer:
+frameRate = 120.00
+frameRateCompatibility = ExactOrMultiple
+seamlessness = ShouldBeSeamless
+averageFPS = 119.8
+present2present histogram is as below:
+8ms=235
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10801
+layerName = com.perfeval.gamebox.bilibili/com.perfeval.gamebox.bilibili.player.PlayerActivity#200
+packageName = com.perfeval.gamebox.bilibili
+gameMode = Unsupported
+totalFrames = 180
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 179
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 179
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined
+present2present histogram is as below:
+16ms=179
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10045
+layerName = NotificationShade$_4450#7064
+packageName =
+gameMode = Unsupported
+totalFrames = 55
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 55
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 55
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10045
+layerName = NotificationShade$_4450#7064
+packageName =
+gameMode = Unsupported
+totalFrames = 55
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 55
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 55
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10780
+layerName = com.perfeval.gamebox/com.perfeval.gamebox.activity.HomePageActivity$_32369#3127
+packageName =
+gameMode = Unsupported
+totalFrames = 124
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 123
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 123
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined
+
+displayRefreshRate = 120 fps
+renderRate = 120 fps
+uid = 10780
+layerName =
+packageName =
+gameMode = Unsupported
+totalFrames = 0
+droppedFrames = 0
+lateAcquireFrames = 0
+badDesiredPresentFrames = 0
+Jank payload for this layer:
+totalTimelineFrames = 0
+jankyFrames = 0
+sfLongCpuJankyFrames = 0
+sfLongGpuJankyFrames = 0
+appBufferStuffingJankyFrames = 0
+SetFrameRate vote for this layer:
+frameRate = 0.00
+frameRateCompatibility = Undefined
+seamlessness = Undefined

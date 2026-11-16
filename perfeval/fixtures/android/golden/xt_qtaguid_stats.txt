@@ -1,0 +1,6 @@
+idx iface acct_tag_hex uid_tag_int cnt_set rx_bytes rx_packets tx_bytes tx_packets rx_tcp_bytes rx_tcp_packets rx_udp_bytes rx_udp_packets rx_other_bytes rx_other_packets tx_tcp_bytes tx_tcp_packets tx_udp_bytes tx_udp_packets tx_other_bytes tx_other_packets
+2 wlan0 0x0 10012 0 120000 200 60000 150 120000 200 0 0 0 0 60000 150 0 0 0 0
+3 wlan0 0x0 10012 1 48000 80 24000 60 48000 80 0 0 0 0 24000 60 0 0 0 0
+4 wlan0 0x0 1000 0 999999 900 999999 900 999999 900 0 0 0 0 999999 900 0 0 0 0
+5 rmnet0 0x0 10012 0 20000 40 10000 20 20000 40 0 0 0 0 10000 20 0 0 0 0
+6 wlan0 0x7ff00000000 10012 0 12000 20 6000 10 12000 20 0 0 0 0 6000 10 0 0 0 0

@@ -1,0 +1,9 @@
+{
+  "name": "pd-mcp-host-smoke",
+  "private": true,
+  "type": "module",
+  "description": "MCP 真实宿主侧冒烟：官方 TypeScript SDK 客户端经 stdio 驱动 services/backend/mcp_server.py 全链（用法见同目录 README.md）",
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0"
+  }
+}

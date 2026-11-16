@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "memory_regression",
+  "compareId": "compare-memory_regression",
+  "expectedOutcome": "fail",
+  "metrics": {
+    "memory.pss.peak_mb": {
+      "baseline": {
+        "mad": 2.0,
+        "median": 300.0,
+        "n": 5,
+        "p90": 302.0
+      },
+      "candidate": {
+        "mad": 2.0,
+        "median": 390.0,
+        "n": 5,
+        "p90": 392.0
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 90.0,
+        "pct": 0.3
+      },
+      "judgement": "fail",
+      "reason": "candidate_memory_peak_exceeds_regression_threshold"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "fail"
+}

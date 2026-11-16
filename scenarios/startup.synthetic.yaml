@@ -1,0 +1,29 @@
+schemaVersion: perfeval.scenario.v1
+project: PerMobile
+scenarioId: startup_home
+description: Synthetic cold start regression scenario.
+gui:
+  quickStart: false
+
+run:
+  repeats: 5
+  mode: same_device_versions
+
+budgets:
+  startup.cold.ms:
+    direction: lower_better
+    failAbs: 2500
+    warnRegressionPct: 0.08
+    failRegressionPct: 0.15
+    minDeltaAbs: 80
+  frame.jank_rate:
+    direction: lower_better
+    warnAbs: 0.05
+    failAbs: 0.10
+    warnRegressionAbs: 0.02
+    failRegressionAbs: 0.05
+  memory.pss.peak_mb:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30

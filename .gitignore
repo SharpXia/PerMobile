@@ -1,0 +1,66 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging and build outputs
+build/
+dist/
+*.egg-info/
+.eggs/
+.gradle/
+
+# Node（frontend/desktop 已有子级 ignore，此处兜底其它 npm 工程，如 MCP 宿主）
+node_modules/
+.eslintcache
+builder-effective-config.yaml
+
+# Logs（日志最易携带本机路径/设备串，一律不入库）
+*.log
+
+# PyInstaller sidecar 打包产物（按需重打，不入库）
+packaging/pyinstaller/dist-backend/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Type checker and tooling caches
+.mypy_cache/
+.ruff_cache/
+.pyre/
+
+# Local environment files
+.env
+.env.*
+
+# Generated run and report outputs
+runs/*
+!runs/.gitkeep
+reports/*
+!reports/.gitkeep
+.perfeval/
+
+# M3 case index (契约 §14)：可随时 rebuild 的派生层，不入库
+services/backend/data/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# 本地工具产物与构建记录（含机器路径，不入库）
+.qoder/
+packaging/build_records/

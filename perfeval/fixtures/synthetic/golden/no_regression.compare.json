@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "no_regression",
+  "compareId": "compare-no_regression",
+  "expectedOutcome": "pass",
+  "metrics": {
+    "startup.cold.ms": {
+      "baseline": {
+        "mad": 2.0,
+        "median": 1000.0,
+        "n": 5,
+        "p90": 1005.0
+      },
+      "candidate": {
+        "mad": 1.0,
+        "median": 1009.0,
+        "n": 5,
+        "p90": 1012.0
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 9.0,
+        "pct": 0.009
+      },
+      "judgement": "pass",
+      "reason": "within_budget"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "pass"
+}

@@ -1,0 +1,7 @@
+# 本目录的构建产物与依赖不入库（沿用 services/frontend/.gitignore 的按目录约定）
+node_modules/
+dist/
+
+# PyInstaller sidecar 拷贝产物（_internal 必须与二进制同在，但均不入库）
+backend/perfeval-backend
+backend/_internal/

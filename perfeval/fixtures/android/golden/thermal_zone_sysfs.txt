@@ -1,0 +1,5 @@
+/sys/class/thermal/thermal_zone0 cpu0 41000
+/sys/class/thermal/thermal_zone1 cpu-0-1 39500
+/sys/class/thermal/thermal_zone2 gpu0 38500
+/sys/class/thermal/thermal_zone3 battery 36500
+/sys/class/thermal/thermal_zone4 skin-weather 34000

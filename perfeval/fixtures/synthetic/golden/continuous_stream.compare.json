@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "continuous_stream",
+  "compareId": "compare-continuous_stream",
+  "expectedOutcome": "fail",
+  "metrics": {
+    "frame.duration.p95.ms": {
+      "baseline": {
+        "mad": 0.0,
+        "median": 55.0,
+        "n": 5,
+        "p90": 55.0
+      },
+      "candidate": {
+        "mad": 0.0,
+        "median": 110.0,
+        "n": 5,
+        "p90": 110.0
+      },
+      "confidence": {
+        "level": "high",
+        "sampleSize": 5
+      },
+      "delta": {
+        "abs": 55.0,
+        "pct": 1.0
+      },
+      "judgement": "fail",
+      "reason": "regression_pct_exceeds_20"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "fail"
+}

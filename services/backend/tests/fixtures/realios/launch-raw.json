@@ -1,0 +1,52 @@
+{
+ "info": {
+  "arguments": [
+   "devicectl",
+   "device",
+   "process",
+   "launch",
+   "--device",
+   "00008130-000955B7C2D1E84A",
+   "com.perfeval.demo",
+   "--json-output",
+   "/tmp/realios_recon/launch.json"
+  ],
+  "commandType": "devicectl.device.process.launch",
+  "environment": {
+   "TERM": "dumb"
+  },
+  "jsonVersion": 5,
+  "outcome": "success",
+  "version": "651.32"
+ },
+ "result": {
+  "deviceIdentifier": "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20",
+  "launchOptions": {
+   "activatedWhenStarted": true,
+   "arguments": [],
+   "environmentVariables": {
+    "TERM": "dumb"
+   },
+   "platformSpecificOptions": {},
+   "startStopped": false,
+   "terminateExistingInstances": false,
+   "user": {
+    "active": true
+   }
+  },
+  "process": {
+   "auditToken": [
+    4294967295,
+    501,
+    501,
+    501,
+    501,
+    15436,
+    0,
+    40746
+   ],
+   "executable": "file:///private/var/containers/Bundle/Application/0041AA81-5BAE-42B8-B9AB-80AD7C86D1A6/Runner.app/Runner",
+   "processIdentifier": 15436
+  }
+ }
+}

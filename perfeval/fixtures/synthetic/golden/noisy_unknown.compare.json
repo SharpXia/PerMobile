@@ -1,0 +1,36 @@
+{
+  "baselineGroup": "baseline",
+  "candidateGroup": "candidate",
+  "caseId": "noisy_unknown",
+  "compareId": "compare-noisy_unknown",
+  "expectedOutcome": "unknown",
+  "metrics": {
+    "startup.cold.ms": {
+      "baseline": {
+        "mad": 220.0,
+        "median": 1100.0,
+        "n": 3,
+        "p90": 1320.0
+      },
+      "candidate": {
+        "mad": 125.0,
+        "median": 1160.0,
+        "n": 3,
+        "p90": 1285.0
+      },
+      "confidence": {
+        "level": "low",
+        "sampleSize": 3
+      },
+      "delta": {
+        "abs": 60.0,
+        "pct": 0.0545
+      },
+      "judgement": "unknown",
+      "reason": "sample_size_below_threshold"
+    }
+  },
+  "mode": "same_device_versions",
+  "schemaVersion": "perfeval.compare.v1",
+  "status": "unknown"
+}

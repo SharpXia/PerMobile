@@ -1,0 +1,4 @@
+current_now=-482500
+voltage_now=3712000
+capacity=76
+charge_full=4368000

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "perfeval.gui.presets.v1",
+  "presets": [
+    {
+      "id": "builtin.startup",
+      "title": "启动速度",
+      "description": "冷启动应用并采集启动耗时、首屏帧表现和内存数据。",
+      "taskKind": "run",
+      "category": "startup",
+      "scenario": "startup.yaml",
+      "packageName": "com.perfeval.gamebox",
+      "repeat": 3,
+      "interactive": false
+    },
+    {
+      "id": "builtin.smoothness",
+      "title": "页面流畅度",
+      "description": "在真实设备上执行固定页面操作，采集卡顿、帧耗时和内存表现。",
+      "taskKind": "run",
+      "category": "smoothness",
+      "scenario": "smoothness.yaml",
+      "packageName": "com.perfeval.gamebox",
+      "repeat": 3,
+      "interactive": true
+    },
+    {
+      "id": "builtin.memory",
+      "title": "内存稳定性",
+      "description": "在目标页面停留并执行操作，检查 PSS、Java Heap 和稳定性信号。",
+      "taskKind": "run",
+      "category": "memory",
+      "scenario": "memory.yaml",
+      "packageName": "com.perfeval.gamebox",
+      "repeat": 3,
+      "interactive": true
+    },
+    {
+      "id": "builtin.ab",
+      "title": "多版本 A/B",
+      "description": "使用同一设备和操作流程，顺序比较基线与候选 APK。",
+      "taskKind": "ab",
+      "category": "ab",
+      "scenario": "ab.yaml",
+      "packageName": "com.perfeval.gamebox",
+      "repeat": 3,
+      "interactive": true
+    },
+    {
+      "id": "builtin.diagnose",
+      "title": "深度诊断",
+      "description": "针对当前页面采集帧、CPU 和 Perfetto 证据，定位复杂性能问题。",
+      "taskKind": "diagnose",
+      "category": "diagnose",
+      "packageName": "com.perfeval.gamebox",
+      "mode": "full",
+      "repeat": 1,
+      "interactive": true
+    }
+  ]
+}

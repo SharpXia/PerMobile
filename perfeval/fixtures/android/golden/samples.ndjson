@@ -1,0 +1,8 @@
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 2000, "metricId": "memory.pss.peak_mb", "value": 312.0}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 4000, "metricId": "memory.pss.peak_mb", "value": 318.5}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 6000, "metricId": "memory.pss.peak_mb", "value": 324.25}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 8000, "metricId": "memory.pss.peak_mb", "value": 321.0}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 10000, "metricId": "memory.pss.peak_mb", "value": 336.75}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 12000, "metricId": "memory.pss.peak_mb", "value": 329.5}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 14000, "metricId": "memory.pss.peak_mb", "value": 325.125}
+{"tags": {"collector": "sampler.mem", "unit": "MB"}, "tsMs": 16000, "metricId": "memory.pss.peak_mb", "value": 319.875}

@@ -1,0 +1,20 @@
+Name:	ndroid.settings
+Umask:	0077
+State:	S (sleeping)
+Tgid:	4583
+Ngid:	0
+Pid:	4583
+PPid:	1669
+TracerPid:	0
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+FDSize:	1024
+Groups:	1000 1002 1005 1007 1065 1077 1079 1096 2001 2002 2901 2902 2905 3001 3002 3003 3007 3010 3011 5050 9997 
+VmPeak:	21753016 kB
+VmSize:	20472344 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	  735984 kB
+VmRSS:	  164500 kB
+RssAnon:	   40660 kB
+RssFile:	  120908 kB

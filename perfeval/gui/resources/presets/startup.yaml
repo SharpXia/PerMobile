@@ -1,0 +1,50 @@
+schemaVersion: perfeval.scenario.v1
+project: PerfEval Lite
+scenarioId: quick_startup
+description: Quick Android cold startup performance check.
+
+apps:
+  - id: target
+    platform: android
+
+run:
+  repeats: 3
+  mode: same_device_versions
+  install:
+    clearData: false
+    reinstall: false
+
+flow:
+  driver: adb_script
+  timeoutMs: 30000
+  steps:
+    - type: launch
+      marker: app_launch
+    - type: idle
+      durationMs: 2000
+
+collectors:
+  android:
+    logcat: true
+    gfxinfo: true
+    meminfo: true
+    perfetto:
+      enabled: false
+      durationMs: 0
+
+budgets:
+  startup.cold.ms:
+    direction: lower_better
+    failAbs: 2500
+    warnRegressionPct: 0.08
+    failRegressionPct: 0.15
+    minDeltaAbs: 80
+  frame.jank_rate:
+    direction: lower_better
+    warnAbs: 0.05
+    failAbs: 0.10
+  memory.pss.peak_mb:
+    direction: lower_better
+    warnRegressionPct: 0.10
+    failRegressionPct: 0.20
+    minDeltaAbs: 30

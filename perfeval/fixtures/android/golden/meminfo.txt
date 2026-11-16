@@ -1,0 +1,19 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 123456 Realtime: 123456
+
+** MEMINFO in pid 12345 [com.perfeval.fixture] **
+                   Pss  Private  Private
+                 Total    Dirty    Clean
+                ------   ------   ------
+  Native Heap    23456    20000        0
+  Dalvik Heap    51200    48000        0
+        TOTAL    90112    70000        0
+
+App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:    51200
+         Native Heap:    23456
+             Graphics:    12345
+                TOTAL:    90112
+
