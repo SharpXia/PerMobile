@@ -27,7 +27,7 @@ def verify_bundle(app: Path, notarized: bool) -> Path:
     executable = contents / "MacOS" / metadata["CFBundleExecutable"]
     backend = resources / "backend" / "perfeval-backend"
     for binary in (executable, backend):
-        subprocess.run(["/usr/bin/lipo", "-verify_arch", "arm64", str(binary)], check=True)
+        subprocess.run(["/usr/bin/lipo", str(binary), "-verify_arch", "arm64"], check=True)
     icon_path = resources / metadata["CFBundleIconFile"]
     with icon_path.open("rb") as stream:
         if icon_path.name == "electron.icns" or stream.read(4) != b"icns":
