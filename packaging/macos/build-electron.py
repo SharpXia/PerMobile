@@ -46,7 +46,13 @@ def main() -> None:
     if tag and tag != f"desktop-v{version}":
         raise SystemExit(f"Tag {tag} must match the desktop package version {version}.")
 
-    signed = bool(os.environ.get("CSC_LINK"))
+    signing_env = os.environ.copy()
+    signed = bool(signing_env.get("CSC_LINK"))
+    if not signed:
+        # GitHub expands a missing secret to an empty string, which electron-builder
+        # resolves as a certificate path relative to its working directory.
+        signing_env.pop("CSC_LINK", None)
+    signing_env["CSC_IDENTITY_AUTO_DISCOVERY"] = "true" if signed else "false"
     apple_credentials = ("APPLE_ID", "APPLE_APP_SPECIFIC_PASSWORD", "APPLE_TEAM_ID")
     if signed and any(not os.environ.get(name) for name in apple_credentials):
         raise SystemExit("Developer ID builds require APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD and APPLE_TEAM_ID.")
@@ -79,7 +85,7 @@ def main() -> None:
         "--config.dmg.artifactName=PerfEval-Desktop-${version}-macos-${arch}.${ext}",
         f"--config.mac.extraResources.from={backend}", "--config.mac.extraResources.to=backend",
         *identity, cwd=DESKTOP,
-        env={**os.environ, "CSC_IDENTITY_AUTO_DISCOVERY": "true" if signed else "false"},
+        env=signing_env,
     )
     dmg = OUTPUT / f"PerfEval-Desktop-{version}-macos-arm64.dmg"
     run(python, HERE / "smoke-electron.py", dmg, *(["--notarized"] if signed else []))
