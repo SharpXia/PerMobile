@@ -650,7 +650,9 @@ function bootstrap() {
     // 等待 sidecar 实际退出，确保强制结束定时器仍有机会运行。
     if (backendProc) {
       event.preventDefault();
-      shutdownBackend().finally(() => app.quit());
+      // AppKit may still be completing the original termination request. Finish the
+      // already-approved exit after shutdown instead of asking it to quit again.
+      shutdownBackend().finally(() => app.exit(0));
     }
   });
 }
