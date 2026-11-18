@@ -61,6 +61,9 @@ def main() -> None:
             if key.startswith(("CSC_", "APPLE_"))
         )
         signing_env["CSC_IDENTITY_AUTO_DISCOVERY"] = "true"
+    else:
+        # Smoke checks verify the ad-hoc signature on pull request builds too.
+        signing_env["CSC_FOR_PULL_REQUEST"] = "true"
 
     venv = WORK / "venv"
     run(sys.executable, "-m", "venv", "--clear", venv, env=build_env)
