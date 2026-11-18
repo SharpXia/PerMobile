@@ -49,8 +49,8 @@ def _make(device_id: str, adb, *, serial=None, package_name="com.app.game"):
 def test_wifi_session_commands_use_mapped_serial(monkeypatch):
     """WiFi 行三条命令路径（锚点/上下文/pidof）都映射到 host:port serial。"""
     adb = _RecordingAdb()
-    collector = _make("RFCX701D8KR-wifi", adb, serial="192.168.23.247:5555")
-    assert collector._serial == "192.168.23.247:5555"
+    collector = _make("ANDROID-TEST-01-wifi", adb, serial="192.0.2.10:5555")
+    assert collector._serial == "192.0.2.10:5555"
 
     # 1) 时钟锚点命令（_default_command_runner 打桩，防真实子进程）
     monkeypatch.setattr(
@@ -65,17 +65,17 @@ def test_wifi_session_commands_use_mapped_serial(monkeypatch):
     collector._scheduler = SimpleNamespace()
     collector._check_process(now=1000.0)
 
-    assert adb.serials == ["192.168.23.247:5555", "192.168.23.247:5555"]
+    assert adb.serials == ["192.0.2.10:5555", "192.0.2.10:5555"]
 
 
 def test_usb_session_falls_back_to_device_id():
     """USB 行不传 serial：device_id 即 serial，行为与修复前一致。"""
     adb = _RecordingAdb()
-    collector = _make("RFCX701D8KR", adb)
-    assert collector._serial == "RFCX701D8KR"
+    collector = _make("ANDROID-TEST-01", adb)
+    assert collector._serial == "ANDROID-TEST-01"
     collector._scheduler = SimpleNamespace()
     collector._check_process(now=1000.0)
-    assert adb.serials == ["RFCX701D8KR"]
+    assert adb.serials == ["ANDROID-TEST-01"]
 
 
 def test_create_collector_passes_serial_through():

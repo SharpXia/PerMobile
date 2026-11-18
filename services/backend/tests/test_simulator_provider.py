@@ -1,6 +1,6 @@
 """simulator provider 单测（M-iOS 契约 §23）：fixture 驱动，不依赖模拟器常驻。
 
-解析层 golden = tests/fixtures/simulator/ 下的真机（iOS 27.0 模拟器）原文：
+解析层 golden 来自 iOS 27.0 模拟器实测，已替换本机路径和设备、容器、启动标识：
 - ``listapps-ios27-raw.txt``：``simctl listapps`` 全量输出（NeXT 风格 plist）；
 - ``launchctl-uikit.txt``：``launchctl list`` 的 UIKitApplication 行；
 - ``springboard-visibility-ndjson.txt``：SpringBoard visibility ndjson 行。
@@ -18,7 +18,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures" / "simulator"
-SIMULATOR_UDID = "88B9E268-8B16-46BA-9E47-E32495BCE547"
+SIMULATOR_UDID = "00000000-0000-4000-8000-000000000065"
 
 DEVICES_JSON = f"""{{
   "devices": {{

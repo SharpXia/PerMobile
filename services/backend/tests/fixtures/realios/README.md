@@ -5,6 +5,8 @@
 `test_real_ios_sampler.py`）不依赖真机在网；xctrace record/export 链路真值对拍
 需真机在网（`test_real_ios_live_smoke.py`，无设备时 skip 不伪装通过，§26.6）。
 
+本目录的设备标识、序列号、局域网地址和应用安装标识均使用测试值。用户安装应用的名称与路径使用示例值。
+
 实测环境：macOS 27.0.1（arm64，M5P MacBook Pro）· xcrun **72** · xctrace
 **27.2 (27B52)** · devicectl **651.32**（jsonVersion **5**）· 真机 PerfEval iPhone
 （iPhone 15 Pro Max / iPhone16,2 / iOS **27.2.1** / UDID
@@ -14,12 +16,12 @@
 
 | 文件 | 来源 | 说明 |
 | --- | --- | --- |
-| `devices-sample.json` | **真机原文 + 1 合成行** | `xcrun devicectl list devices --json-output <path>` 全量 8 行：7 行为 2026-11-16 真机原文 verbatim（未配对 ECID 行 / watchOS 行 / 5 模拟器行 / 真机 localNetwork 行）；末 1 行为**合成** wired+connected 行（见下「合成行声明」） |
-| `apps-raw.json` | 真机原文 | `devicectl device info apps --device <udid> --json-output`（3 个用户安装 App；`defaultAppsIncluded:false` 时不出系统应用） |
-| `processes-raw.json` | 真机原文 | `devicectl device info processes --device <udid> --json-output`（322 进程全表；`result.runningProcesses[].executable` 为 `file://` URL） |
-| `launch-raw.json` | 真机原文 | `devicectl device process launch --device <udid> com.perfeval.demo --json-output`（pid=15436；`result.process.processIdentifier`） |
-| `lockstate.json` | 真机原文 | `devicectl device info lockState --device <udid> --json-output`（passcodeRequired/unlockedSinceBoot 布尔对） |
-| `details-raw.json` | 真机原文 | `devicectl device info details --device <udid> --json-output`（osVersionNumber/marketingName/cpuCount(6)/serialNumber/reality=physical 读数源；非 §26.1 契约字段源） |
+| `devices-sample.json` | **脱敏实测 + 1 合成行** | `xcrun devicectl list devices --json-output <path>` 全量 8 行：7 行来自 2026-11-16 实测（未配对 ECID 行 / watchOS 行 / 模拟器行 / 真机 localNetwork 行），末 1 行为**合成** wired+connected 行（见下「合成行声明」） |
+| `apps-raw.json` | 脱敏实测 | `devicectl device info apps --device <udid> --json-output`（3 个用户安装 App；`defaultAppsIncluded:false` 时不出系统应用） |
+| `processes-raw.json` | 脱敏实测 | `devicectl device info processes --device <udid> --json-output`（322 进程全表；`result.runningProcesses[].executable` 为 `file://` URL） |
+| `launch-raw.json` | 脱敏实测 | `devicectl device process launch --device <udid> com.perfeval.demo --json-output`（pid=15436；`result.process.processIdentifier`） |
+| `lockstate.json` | 脱敏实测 | `devicectl device info lockState --device <udid> --json-output`（passcodeRequired/unlockedSinceBoot 布尔对） |
+| `details-raw.json` | 脱敏实测 | `devicectl device info details --device <udid> --json-output`（osVersionNumber/marketingName/cpuCount(6)/serialNumber/reality=physical 读数源；非 §26.1 契约字段源） |
 | `activity-monitor-process-live.xml` | **真文法 + 重构行值** | `xctrace export --xpath '…table[@schema="activity-monitor-process-live"]'` 的行文法（单元格列位对齐/`ref` 引用/`sentinel`），表头 `<col>` 块逐字取自本机真导出；4 行行值按勘察口径重构（见下「XML 行值声明」） |
 | `am-process-live-host-sentinel.xml` | 真机原文（宿主 trace） | 本机宿主 `xctrace record --attach yes`（CPU 满载进程）4s 真导出 verbatim——**cpu-percent 单元格恒 `<sentinel/>`**（宿主录制该列不出值），作解析器负例 golden：sentinel→null 不猜 |
 
@@ -75,8 +77,8 @@
 映射值）、`tunnelState:"connected"`（在线形态）、移除
 `tunnelTransportProtocol`。用途：锚定 §26.1 golden 的
 `connection:"usb" + state:"online"` 映射形态与 profile usb=true/wifi=false/
-simulator=false。其余 7 行 verbatim，过滤规则（platform 限定 / reality+
-sameMachine 拦模拟器 / unsupported 拦未配对）全部以 verbatim 行为断言依据。
+simulator=false。其余 7 行来自脱敏实测，保留过滤规则使用的 platform、
+reality、sameMachine 和 unsupported 等字段值。
 
 ## xctrace 行为实测（勘察 + 2026-11-16 复测）
 
@@ -125,8 +127,8 @@ preventing-sleep`。
 
 ## 契约锚点
 
-- 设备过滤/映射规则、golden 设备行：契约 **§26.1**（S2 已冻结 golden，UDID/
-  marketingName/osVersionNumber 为本机实测值）；
+- 设备过滤/映射规则、golden 设备行见契约 **§26.1**。UDID 使用测试值，
+  marketingName 和 osVersionNumber 保留实测值。
 - 应用列表合成规则：契约 **§26.2**（bundle 目录匹配；isForeground 恒 null；
   attach 目标名 = processes[].name）；
 - 指标行（`cpu.proc.xctrace.pct` / `memory.footprint.mb`，tags 恒带

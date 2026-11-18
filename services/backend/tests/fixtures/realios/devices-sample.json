@@ -111,7 +111,7 @@
      "isMobileDeviceOnly": false,
      "pairingState": "paired",
      "potentialHostnames": [
-      "PerfEvals-AppleWatch.coredevice.local",
+      "fixture-watch.coredevice.local",
       "B4E81C92-7A05-5D3F-8E2B-9C41D6F0A735.coredevice.local",
       "00008310-000D55AA11BB77CD.coredevice.local"
      ],
@@ -232,9 +232,9 @@
        "type": 16777228
       }
      ],
-     "udid": "E7B7114A-68BC-4C9D-945E-B9EA150894B1"
+     "udid": "00000000-0000-4000-8000-00000000009B"
     },
-    "identifier": "E7B7114A-68BC-4C9D-945E-B9EA150894B1",
+    "identifier": "00000000-0000-4000-8000-00000000009B",
     "properties": {
      "connection": {
       "authenticationType": "implicit",
@@ -264,7 +264,7 @@
        }
       ],
       "supportsSiri": true,
-      "udid": "E7B7114A-68BC-4C9D-945E-B9EA150894B1"
+      "udid": "00000000-0000-4000-8000-00000000009B"
      },
      "software": {
       "osBuildVersions": {
@@ -386,9 +386,9 @@
        "type": 16777228
       }
      ],
-     "udid": "3C291520-E3AA-414E-8554-03F3BA4396E8"
+     "udid": "00000000-0000-4000-8000-00000000009C"
     },
-    "identifier": "3C291520-E3AA-414E-8554-03F3BA4396E8",
+    "identifier": "00000000-0000-4000-8000-00000000009C",
     "properties": {
      "connection": {
       "authenticationType": "implicit",
@@ -418,7 +418,7 @@
        }
       ],
       "supportsSiri": true,
-      "udid": "3C291520-E3AA-414E-8554-03F3BA4396E8"
+      "udid": "00000000-0000-4000-8000-00000000009C"
      },
      "software": {
       "osBuildVersions": {
@@ -679,9 +679,9 @@
        "type": 16777228
       }
      ],
-     "udid": "AA046B81-B431-42A2-9E8B-59F69B7689B6"
+     "udid": "00000000-0000-4000-8000-00000000009D"
     },
-    "identifier": "AA046B81-B431-42A2-9E8B-59F69B7689B6",
+    "identifier": "00000000-0000-4000-8000-00000000009D",
     "properties": {
      "connection": {
       "authenticationType": "implicit",
@@ -711,7 +711,7 @@
        }
       ],
       "supportsSiri": true,
-      "udid": "AA046B81-B431-42A2-9E8B-59F69B7689B6"
+      "udid": "00000000-0000-4000-8000-00000000009D"
      },
      "software": {
       "osBuildVersions": {
@@ -833,9 +833,9 @@
        "type": 16777228
       }
      ],
-     "udid": "88B9E268-8B16-46BA-9E47-E32495BCE547"
+     "udid": "00000000-0000-4000-8000-000000000065"
     },
-    "identifier": "88B9E268-8B16-46BA-9E47-E32495BCE547",
+    "identifier": "00000000-0000-4000-8000-000000000065",
     "properties": {
      "connection": {
       "authenticationType": "implicit",
@@ -865,7 +865,7 @@
        }
       ],
       "supportsSiri": true,
-      "udid": "88B9E268-8B16-46BA-9E47-E32495BCE547"
+      "udid": "00000000-0000-4000-8000-000000000065"
      },
      "software": {
       "osBuildVersions": {
@@ -947,7 +947,7 @@
      "lastConnectionDate": "2026-11-16T03:34:00.000Z",
      "pairingState": "paired",
      "potentialHostnames": [
-      "xxds-iPhone.coredevice.local",
+      "fixture-iphone.coredevice.local",
       "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20.coredevice.local",
       "00008130-000955B7C2D1E84A.coredevice.local"
      ],
@@ -958,7 +958,7 @@
     "deviceProperties": {
      "bootState": "booted",
      "bootedFromSnapshot": true,
-     "bootedSnapshotName": "com.apple.os.update-4B52865BD3708B7A163027ECA3B68E03E72C3C8CF12EB10FF84B0BC8D50BC546",
+     "bootedSnapshotName": "com.apple.os.update-0000000000000000000000000000000000000000000000000000000000000000",
      "ddiServicesAvailable": false,
      "developerModeStatus": "enabled",
      "hasInternalOSBuild": false,
@@ -983,7 +983,7 @@
      "platform": "iOS",
      "productType": "iPhone16,2",
      "reality": "physical",
-     "serialNumber": "LQ5CYXR4D5",
+     "serialNumber": "TESTIOS001",
      "supportedCPUTypes": [
       {
        "name": "arm64e",
@@ -1030,7 +1030,7 @@
       "platform": "iOS",
       "productType": "iPhone16,2",
       "reality": "physical",
-      "serialNumber": "LQ5CYXR4D5",
+      "serialNumber": "TESTIOS001",
       "supportedBiometrics": [
        "faceID"
       ],
@@ -1154,7 +1154,7 @@
      "lastConnectionDate": "2026-11-16T03:34:00.000Z",
      "pairingState": "paired",
      "potentialHostnames": [
-      "xxds-iPhone.coredevice.local",
+      "fixture-iphone.coredevice.local",
       "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20.coredevice.local",
       "00008130-000955B7C2D1E84A.coredevice.local"
      ],
@@ -1164,7 +1164,7 @@
     "deviceProperties": {
      "bootState": "booted",
      "bootedFromSnapshot": true,
-     "bootedSnapshotName": "com.apple.os.update-4B52865BD3708B7A163027ECA3B68E03E72C3C8CF12EB10FF84B0BC8D50BC546",
+     "bootedSnapshotName": "com.apple.os.update-0000000000000000000000000000000000000000000000000000000000000000",
      "ddiServicesAvailable": false,
      "developerModeStatus": "enabled",
      "hasInternalOSBuild": false,
@@ -1189,7 +1189,7 @@
      "platform": "iOS",
      "productType": "iPhone16,2",
      "reality": "physical",
-     "serialNumber": "LQ5CYXR4D5",
+     "serialNumber": "TESTIOS001",
      "supportedCPUTypes": [
       {
        "name": "arm64e",
@@ -1236,7 +1236,7 @@
       "platform": "iOS",
       "productType": "iPhone16,2",
       "reality": "physical",
-      "serialNumber": "LQ5CYXR4D5",
+      "serialNumber": "TESTIOS001",
       "supportedBiometrics": [
        "faceID"
       ],

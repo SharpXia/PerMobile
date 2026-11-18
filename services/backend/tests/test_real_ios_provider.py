@@ -3,13 +3,13 @@
 解析层 golden = tests/fixtures/realios/ 下的真机原文（2026-11-16 本机实测，
 xcrun 72 / devicectl 651.32 / jsonVersion 5）：
 
-- ``devices-sample.json``：``devicectl list devices --json-output`` 全量 7 行
-  （未配对 ECID 行 / watchOS 行 / 5 模拟器行 / 真机 localNetwork 行）+ 1 行
+- ``devices-sample.json``：``devicectl list devices --json-output`` 脱敏实测 7 行
+  （未配对 ECID 行 / watchOS 行 / 模拟器行 / 真机 localNetwork 行）+ 1 行
   合成 wired+connected 行（§26.1 golden 映射形态，README 标注合成依据）；
 - ``apps-raw.json`` / ``processes-raw.json``：``device info apps``/``processes``
-  真机原文（§26.2 合成输入）；
+  脱敏实测（§26.2 合成输入）；
 - ``launch-raw.json`` / ``lockstate.json`` / ``details-raw.json``：launch pid /
-  lockState 预热 / details 读数真机原文。
+  lockState 预热 / details 读数脱敏实测。
 
 provider 行为以假 devicectl runner 驱动**生产** RealIOSProvider（命令执行面
 注入，simctl 假 runner 先例同哲学）；xctrace 命令序列断言见
@@ -33,7 +33,7 @@ REAL_UDID = "00008130-000955B7C2D1E84A"
 REAL_IDENTIFIER = "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20"  # coredevice UUID（≠UDID）
 WATCH_IDENTIFIER = "B4E81C92-7A05-5D3F-8E2B-9C41D6F0A735"
 UNPAIRED_IDENTIFIER = "8D3E5A70-C1F4-59B2-A6D8-2E4F6A8C0D1E"
-SIM_BOOTED_IDENTIFIER = "AA046B81-B431-42A2-9E8B-59F69B7689B6"
+SIM_BOOTED_IDENTIFIER = "00000000-0000-4000-8000-00000000009D"
 
 
 def _completed(stdout: str = "", returncode: int = 0, stderr: str = "") -> Any:
@@ -299,7 +299,7 @@ def test_parse_details_json_golden_fixture() -> None:
         "udid": REAL_UDID,
         "marketingName": "iPhone 15 Pro Max",
         "osVersionNumber": "27.2.1",
-        "serialNumber": "LQ5CYXR4D5",
+        "serialNumber": "TESTIOS001",
         "cpuCores": 6,
         "reality": "physical",
     }

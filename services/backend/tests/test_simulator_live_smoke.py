@@ -24,11 +24,8 @@ from app.config import Settings  # noqa: E402
 from app.main import create_app  # noqa: E402
 from app.providers.simulator import SimulatorProvider  # noqa: E402
 
-UDID = "88B9E268-8B16-46BA-9E47-E32495BCE547"  # 本机 iPhone 18 Pro（iOS 27.0）
-
-
 def _booted_udid() -> str | None:
-    """当前 booted iOS 模拟器 UDID（优先指定机，否则任一 booted）；无则 None。"""
+    """当前 booted iOS 模拟器 UDID；无则 None。"""
     try:
         completed = subprocess.run(
             ["xcrun", "simctl", "list", "devices", "--json"],

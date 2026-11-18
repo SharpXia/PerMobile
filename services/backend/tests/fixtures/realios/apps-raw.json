@@ -33,7 +33,7 @@
     "internalApp": false,
     "name": "AgentTool",
     "removable": true,
-    "url": "file:///private/var/containers/Bundle/Application/DF249FCD-2051-41FA-9367-7CFA5D5C0C35/AgentTool.app/",
+    "url": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000001/AgentTool.app/",
     "version": "0.5.15"
    },
    {
@@ -47,7 +47,7 @@
     "internalApp": false,
     "name": "demo",
     "removable": true,
-    "url": "file:///private/var/containers/Bundle/Application/0041AA81-5BAE-42B8-B9AB-80AD7C86D1A6/Runner.app/",
+    "url": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000002/Runner.app/",
     "version": "1.0.0"
    },
    {
@@ -59,9 +59,9 @@
     "defaultApp": false,
     "hidden": false,
     "internalApp": false,
-    "name": "示例游戏",
+    "name": "示例应用",
     "removable": true,
-    "url": "file:///private/var/containers/Bundle/Application/A2941535-D61A-4400-9044-3EA64FEC41F7/LangRen-tf.app/",
+    "url": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000003/ExampleApp1.app/",
     "version": "4.3.4"
    }
   ],

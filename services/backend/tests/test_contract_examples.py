@@ -1696,7 +1696,7 @@ def test_timed_screenshot_golden_schema(client: TestClient) -> None:
 # test_simulator_provider.py / test_simulator_flow.py 以 fixture 驱动（无模拟器
 # 常驻依赖），live smoke 单独标注（需 booted 模拟器，无则 skip——§23.5 如实声明）。
 
-SIMULATOR_UDID = "88B9E268-8B16-46BA-9E47-E32495BCE547"
+SIMULATOR_UDID = "00000000-0000-4000-8000-000000000065"
 
 SIMULATOR_GOLDEN: dict = {
     # 契约 §23.1 GET /api/devices（simulator 模式形态；UDID 取自本机实测设备）

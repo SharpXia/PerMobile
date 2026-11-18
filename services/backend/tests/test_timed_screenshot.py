@@ -60,7 +60,7 @@ def test_capture_screenshot_bytes_strips_display_warning_prefix() -> None:
     orig_run = mod.subprocess.run
     mod.subprocess.run = lambda *a, **k: completed
     try:
-        data = capture_screenshot_bytes(_Adb(), "RFCX701D8KR")
+        data = capture_screenshot_bytes(_Adb(), "ANDROID-TEST-01")
     finally:
         mod.subprocess.run = orig_run
     assert data == dirty[dirty.find(FIXTURE_PNG[:8]):]  # 签名起原样保留
@@ -70,7 +70,7 @@ def test_capture_screenshot_bytes_strips_display_warning_prefix() -> None:
     mod.subprocess.run = lambda *a, **k: completed_no_png
     try:
         with pytest.raises(ApiError) as exc_info:
-            capture_screenshot_bytes(_Adb(), "RFCX701D8KR")
+            capture_screenshot_bytes(_Adb(), "ANDROID-TEST-01")
     finally:
         mod.subprocess.run = orig_run
     assert exc_info.value.code == "artifact_pull_failed"

@@ -24,7 +24,7 @@ from app.main import create_app  # noqa: E402
 from app.providers.simulator import SimulatorProvider  # noqa: E402
 from app.services.simulator_sampler import SimulatorCollector  # noqa: E402
 
-SIMULATOR_UDID = "88B9E268-8B16-46BA-9E47-E32495BCE547"
+SIMULATOR_UDID = "00000000-0000-4000-8000-000000000065"
 TARGET_APP = "com.apple.Preferences"
 
 DEVICES_JSON = f"""{{
