@@ -9,6 +9,10 @@ from pathlib import Path
 from typing import Sequence
 
 
+ADB_PATH_ENV_VAR = "PERFEVAL_ADB_PATH"
+# ADB is a console executable. The Windows desktop sidecar has no console.
+ADB_CREATION_FLAGS = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+
 _ACTIVITY_COMPONENT_RE = re.compile(
     r"^[A-Za-z0-9_][A-Za-z0-9_.]*/(?:\.?[A-Za-z0-9_$][A-Za-z0-9_.$]*)$"
 )
@@ -83,10 +87,16 @@ def _well_known_adb() -> str | None:
 
 class AdbClient:
     def __init__(self, adb_path: str | None = None) -> None:
-        self.adb_path = adb_path or shutil.which("adb") or _well_known_adb() or "adb"
+        self.adb_path = (
+            adb_path
+            or os.environ.get(ADB_PATH_ENV_VAR)
+            or shutil.which("adb")
+            or _well_known_adb()
+            or "adb"
+        )
 
     def available(self) -> bool:
-        return bool(shutil.which(self.adb_path) or Path(self.adb_path).exists())
+        return bool(shutil.which(self.adb_path) or Path(self.adb_path).is_file())
 
     def command(self, *args: str, serial: str | None = None) -> list[str]:
         command = [self.adb_path]
@@ -106,10 +116,12 @@ class AdbClient:
             text=True,
             encoding="utf-8",
             errors="replace",
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=timeout,
             check=False,
+            creationflags=ADB_CREATION_FLAGS,
         )
 
     def list_devices(self) -> list[AndroidDevice]:

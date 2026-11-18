@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from perfeval.collectors.android import adb as adb_mod
@@ -16,7 +17,21 @@ from perfeval.collectors.android.adb import AdbClient
 def test_explicit_adb_path_always_wins(monkeypatch) -> None:
     """显式传参不受 which/兜底影响（测试桩注入依赖此语义）。"""
     monkeypatch.setattr("shutil.which", lambda _: None)
+    monkeypatch.setenv("PERFEVAL_ADB_PATH", "/bundled/adb.exe")
     assert AdbClient("/fake-adb").adb_path == "/fake-adb"
+
+
+def test_bundled_adb_has_priority_over_path(monkeypatch, tmp_path: Path) -> None:
+    executable = tmp_path / "应用目录 with spaces" / "adb.exe"
+    executable.parent.mkdir()
+    executable.touch()
+    monkeypatch.setenv("PERFEVAL_ADB_PATH", str(executable))
+    monkeypatch.setattr("shutil.which", lambda name: "/path/adb" if name == "adb" else None)
+
+    client = AdbClient()
+
+    assert client.available()
+    assert client.command("devices", "-l") == [str(executable), "devices", "-l"]
 
 
 def test_path_hit_short_circuits_fallback(monkeypatch, tmp_path: Path) -> None:
@@ -32,12 +47,13 @@ def test_fallback_android_home(monkeypatch, tmp_path: Path) -> None:
     """ANDROID_HOME/platform-tools 兜底命中。"""
     sdk = tmp_path / "sdk"
     (sdk / "platform-tools").mkdir(parents=True)
-    (sdk / "platform-tools" / "adb").write_text("#!/bin/sh\n")
+    executable = sdk / "platform-tools" / ("adb.exe" if os.name == "nt" else "adb")
+    executable.touch()
     monkeypatch.setattr("shutil.which", lambda _: None)
     monkeypatch.setenv("ANDROID_HOME", str(sdk))
     monkeypatch.delenv("ANDROID_SDK_ROOT", raising=False)
     client = AdbClient()
-    assert client.adb_path == str(sdk / "platform-tools" / "adb")
+    assert client.adb_path == str(executable)
     assert client.available() is True
 
 
@@ -45,12 +61,13 @@ def test_fallback_platform_sdk_location(monkeypatch, tmp_path: Path) -> None:
     """无 SDK 环境变量时按平台已知位置兜底（macOS Studio SDK 标准布局）。"""
     sdk = tmp_path / "Library" / "Android" / "sdk"
     (sdk / "platform-tools").mkdir(parents=True)
-    (sdk / "platform-tools" / "adb").write_text("#!/bin/sh\n")
+    executable = sdk / "platform-tools" / ("adb.exe" if os.name == "nt" else "adb")
+    executable.touch()
     monkeypatch.setattr("shutil.which", lambda _: None)
     monkeypatch.delenv("ANDROID_HOME", raising=False)
     monkeypatch.delenv("ANDROID_SDK_ROOT", raising=False)
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
-    assert AdbClient().adb_path == str(sdk / "platform-tools" / "adb")
+    assert AdbClient().adb_path == str(executable)
 
 
 def test_fallback_homebrew_prefix(monkeypatch, tmp_path: Path) -> None:

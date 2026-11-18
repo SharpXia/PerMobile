@@ -5,7 +5,6 @@
 保持不动，两者并行存在。
 
 依据：`services/backend/run.py`（后端唯一入口，`--port 8737`）、
-（静态托管）、
 `services/backend/app/main.py` 的 `health()` / `_mount_static`。
 
 ## 架构
@@ -16,7 +15,7 @@
 │   ├─ 开发态  加载 http://localhost:5173     （Vite dev server）        │
 │   └─ 生产态  加载 http://127.0.0.1:8737     （后端同源静态托管 dist）  │
 │  sidecar 生命周期：spawn → 轮询 GET /api/health → 退出时收口           │
-│   （单实例锁；30s 健康超时弹错误对话框；SIGTERM→5s→SIGKILL）           │
+│   （单实例锁；30s 健康超时弹错误对话框）                                │
 └──────────────┬────────────────────────────────────────────────────────┘
                │ HTTP /api/**（开发态经 Vite proxy 5173→8737）
 ┌──────────────▼────────────────────────────────────────────────────────┐
@@ -35,12 +34,10 @@
 进程模型要点：
 
 - **单实例锁**：`app.requestSingleInstanceLock()`，二次启动只聚焦既有窗口。
-- **sidecar 归属壳**：随壳启动（dev/prod 都拉起），窗口全关即收口（三平台一致：
-  SIGTERM → 5s 超时 SIGKILL → `app.quit()`；Cmd/Ctrl+Q 走 `before-quit` 兜底）。
-- **安全模型**：`contextIsolation: true` / `nodeIntegration: false`；preload 只经
-  contextBridge 暴露 `appVersion` / `platform` 两个冻结值。`sandbox: false` 是刻意
-  选择（sandboxed preload 无 `app` 模块，取不到 `app.getVersion()`），渲染层仍与
-  Node 完全隔离。
+- **sidecar 归属壳**。Windows 安装版通过关闭后端标准输入收尾，超时后结束后端子进程。
+  后端通过 Windows Job Object 管理自己启动的 ADB。其他运行形态先发 SIGTERM，5 秒后再尝试 SIGKILL。
+- **渲染进程**启用 `contextIsolation` 和 `sandbox`，关闭 `nodeIntegration`。
+  preload 通过 `contextBridge` 暴露 `appVersion` 和 `platform`。
 - **外链**：`window.open`/`target=_blank` 一律拒绝新窗并转交系统浏览器。
 
 ## 快捷键（Menu accelerators，roles 优先）
@@ -86,22 +83,34 @@ npm install
 - **sidecar spawn env 显式注入** `PD_RUNS_DIR`（打包态，用户级稳定数据目录/runs，
   后端侧该环境变量恒胜出——冻结落点不依赖后端镜像分支漂移）与 `PD_CORS_ORIGINS`
   （dev 来源 + 壳同源，同源托管下非阻断、显式声明兜底）。
-- **端口占用探测**：spawn 前探测 `BACKEND_PORT`，已占用 → 错误对话框给出修复命令
-  （`lsof -ti :8737 | xargs kill`；或 `PERFEVAL_BACKEND_PORT` 另指端口），不再让
-  子进程绑定失败后在健康轮询里以「sidecar 已退出」掩盖真因（孤儿 run.py 占住
-  8737 的失败模式在壳流 lane 实际发生过）。
+- **端口占用探测**。Windows 安装版发现端口被占用时另选本机回环端口。其他运行形态会尝试清理残留后端，失败时提示修改 `PERFEVAL_BACKEND_PORT`。
 
 ## 打包
 
+完整安装包可通过下文的 GitHub Actions 构建，也可在对应平台运行发包脚本。 [macOS 打包](../../packaging/macos/README.md) · [Windows 打包](../../packaging/windows/README.md)
+
 ```bash
-npm run dist:dir   # 免签名目录产物：dist/mac-arm64/PerfEval Desktop.app（win: dist/win-unpacked）
-npm run dist       # mac: dir + dmg；win: nsis + dir
+npm run dist:dir   # macOS 免签名目录产物：dist/mac-arm64/PerfEval Desktop.app
+npm run dist       # macOS：目录产物和 DMG
 ./install-macos.sh # 装入 /Applications（含 LaunchServices 重注册，见下）
 ```
 
-`electron-builder.yml` 关键约定：`appId: local.perfeval.desktop`；mac
-`identity: null`（不签名/公证，本地分发）；`extraResources` 把
-`services/desktop/backend/` 原样拷到 `<Resources>/backend/`。
+本机 macOS 构建可将后端放入 `services/desktop/backend/`，Electron 会将它拷到 `<Resources>/backend/`。发包脚本使用独立的暂存目录。Windows 安装包还内置 ADB。
+
+### GitHub 自动发布
+
+[Desktop release](../../.github/workflows/desktop-release.yml) 使用 GitHub 托管的 macOS ARM64 和 Windows x64 runner。手动运行工作流、相关 PR 或推送主分支时，两个构建并行验证并上传 Actions artifacts。推送与 Electron 版本一致的 `desktop-v<版本号>` 标签时，两个构建均通过且 SHA-256 校验通过后会自动发布一个 GitHub Release。
+
+发新版本时，在 GitHub 公共 `main` 的检出副本中更新 `services/desktop/package.json` 和 `package-lock.json` 的版本，将改动提交到公共 `main`，然后对该提交打标签。例如版本 `0.1.0` 对应：
+
+```bash
+git tag -a desktop-v0.1.0 -m "PerfEval Desktop v0.1.0"
+git push origin desktop-v0.1.0
+```
+
+发布包含 `PerfEval-Desktop-<版本>-macos-arm64.dmg`、`PerfEval-Desktop-<版本>-windows-x64-setup.exe`，以及各自的 `.sha256`。版本带预发布后缀（例如 `desktop-v0.2.0-rc.1`）时，GitHub Release 会标为预发布。已发布的同名版本保留原有资产。
+
+签名凭据放在仓库的 Actions secrets。macOS 使用 `MAC_CSC_LINK`、`MAC_CSC_KEY_PASSWORD`、`APPLE_ID`、`APPLE_APP_SPECIFIC_PASSWORD` 和 `APPLE_TEAM_ID`。Windows 使用 `WIN_CSC_LINK` 和 `WIN_CSC_KEY_PASSWORD`。缺少签名凭据时，工作流可生成未经过平台发行签名的安装包。macOS 仍使用本机 ADB 采集 Android，Windows 安装包内置 ADB。
 
 ### 覆盖安装必须重注册 LaunchServices（install-macos.sh）
 

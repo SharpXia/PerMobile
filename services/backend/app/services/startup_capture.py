@@ -126,16 +126,6 @@ def _manifest_package_name(run_path: Path) -> str | None:
     return name if isinstance(name, str) and name else None
 
 
-def _default_runner(adb_path: str) -> Callable[..., Any]:
-    """默认命令执行器：perfeval AdbClient.run（subprocess）。"""
-    client = AdbClient(adb_path=adb_path)
-
-    def run(*args: str, serial: str | None = None, timeout: float | None = None) -> Any:
-        return client.run(*args, serial=serial, timeout=timeout)
-
-    return run
-
-
 def _feed_queue(source: Iterator[str], queue: "Queue[str]") -> None:
     """行源 → 队列（守护线程；生成器结束/异常均终止入队）。"""
     try:
@@ -151,7 +141,7 @@ def capture_startup(
     device_serial: str,
     *,
     package_name: str | None = None,
-    adb_path: str = "adb",
+    adb_path: str | None = None,
     am_start_timeout_s: float = 30.0,
     total_deadline_s: float = 20.0,
     ttfd_grace_s: float = 5.0,
@@ -173,8 +163,8 @@ def capture_startup(
     """
     run_path = resolve_run_dir(runs_dir, run_id)
     package = package_name or _manifest_package_name(run_path)
-    runner = command_runner or _default_runner(adb_path)
-    factory = line_source_factory or adb_logcat_time_source
+    adb = AdbClient(adb_path)
+    runner = command_runner or adb.run
 
     captured_at = int(now_epoch() * 1000)
     base_record: dict[str, Any] = {
@@ -196,7 +186,11 @@ def capture_startup(
         logcat_cleared = False
 
     # 2) logcat 尾随先行（Displayed 行与 am start 几乎同时产出，先起流防漏）
-    lines = factory(device_serial)()
+    line_source = (
+        line_source_factory(device_serial) if line_source_factory is not None
+        else adb_logcat_time_source(device_serial, adb_path=adb.adb_path)
+    )
+    lines = line_source()
     if lines is None:
         raise ApiError("adb_not_found", "logcat 流未能启动（adb 缺失或设备不可达）")
 
@@ -209,7 +203,7 @@ def capture_startup(
         component = _resolve_component(runner, device_serial, package)
         if component is not None:
             completed = runner(
-                *launch_command(AdbClient(adb_path=adb_path), component)[1:],
+                *launch_command(adb, component)[1:],
                 serial=device_serial,
                 timeout=am_start_timeout_s,
             )
@@ -229,6 +223,7 @@ def capture_startup(
         am_error = f"am start 执行失败：{exc}"
 
     if am_error is not None:
+        _close_lines(lines)
         # 未产出测量产物：不落盘、不伪造（§1 空值原则），HTTP 200 如实申报
         return {
             **base_record,
@@ -364,13 +359,17 @@ def _wait_for_lines(
                 if ttid_ms is not None:
                     break
     finally:
-        close = getattr(lines, "close", None)
-        if close is not None:
-            try:
-                close()
-            except Exception:  # noqa: BLE001 —— 清理失败不掩盖主流程
-                pass
+        _close_lines(lines)
     return ttid_ms, ttfd_ms
+
+
+def _close_lines(lines: Iterator[str]) -> None:
+    close = getattr(lines, "close", None)
+    if close is not None:
+        try:
+            close()
+        except Exception:  # noqa: BLE001 —— 清理失败不掩盖主流程
+            pass
 
 
 def _capture_note(ttid_ms: float | None, ttfd_ms: float | None) -> str:

@@ -247,8 +247,13 @@ def test_capture_no_displayed_line_ttid_null(client: TestClient) -> None:
     assert "TTID=null" in record["note"]
 
 
-def test_capture_am_start_failed_returns_failed_record_without_file(client: TestClient) -> None:
+def test_capture_am_start_failed_returns_failed_record_without_file(
+    client: TestClient, monkeypatch
+) -> None:
     """am start 失败 → state=failed 记录（不落盘，无测量产物不伪造）。"""
+    from unittest.mock import Mock
+
+    from app.services import startup_capture
 
     class _FailingRunner(_FakeRunner):
         def __call__(self, *args: str, serial=None, timeout=None):  # noqa: ANN001
@@ -257,19 +262,30 @@ def test_capture_am_start_failed_returns_failed_record_without_file(client: Test
             return super().__call__(*args, serial=serial, timeout=timeout)
 
     _run_dir(client, "PD_STARTUP_FAIL")
-    _source = _FakeSource()
+    adb_path = client.runs_dir / "应用目录 with spaces" / "adb.exe"
+    monkeypatch.setenv("PERFEVAL_ADB_PATH", str(adb_path))
+    source = Mock()
+    line_source_factory = Mock(return_value=lambda: source)
+    monkeypatch.setattr(startup_capture, "adb_logcat_time_source", line_source_factory)
+    runner = _FailingRunner()
+
+    def fake_run(adb, *args, **kwargs):
+        assert adb.adb_path == str(adb_path)
+        return runner(*args, **kwargs)
+
+    monkeypatch.setattr(startup_capture.AdbClient, "run", fake_run)
     record = capture_startup(
         client.runs_dir,
         "run-PD_STARTUP_FAIL",
         "FAKE001",
-        line_source_factory=_source.factory(),
-        command_runner=_FailingRunner(),
         total_deadline_s=2.0,
         ttfd_grace_s=0.2,
     )
     assert record["state"] == "failed"
     assert record["error"] and record["ttidMs"] is None
     assert not (client.runs_dir / "PD_STARTUP_FAIL" / "startup.ndjson").exists()
+    line_source_factory.assert_called_once_with("FAKE001", adb_path=str(adb_path))
+    source.close.assert_called_once_with()
 
 
 # ---- 端点：POST capture + GET startup 回填 ----

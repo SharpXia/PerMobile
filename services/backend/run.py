@@ -9,7 +9,10 @@ M1 竖切片仅落地 fastapi transport（依赖已按 §8 安装成功，无需
 from __future__ import annotations
 
 import argparse
+import os
 import sys
+import threading
+from contextlib import nullcontext
 from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parent
@@ -67,6 +70,13 @@ def build_settings(args: argparse.Namespace) -> "Settings":
 
 
 def main(argv: list[str] | None = None) -> int:
+    use_desktop_pipe = os.environ.get("PERFEVAL_PARENT_STDIN") == "1"
+    if use_desktop_pipe or (sys.platform == "win32" and getattr(sys, "frozen", False)):
+        # Electron expects UTF-8. Windows' redirected stdio can otherwise fail on a
+        # runs path containing Unicode characters outside the system code page.
+        for stream in (sys.stdout, sys.stderr):
+            if stream is not None:
+                stream.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
     args = build_parser().parse_args(argv)
 
     if args.transport == "stdlib":
@@ -90,14 +100,43 @@ def main(argv: list[str] | None = None) -> int:
 
     from app.main import create_app
 
-    settings = build_settings(args)
-    app = create_app(settings)
-    mode = app.state.provider.mode
-    print(
-        f"[pd-backend] listening http://{args.host}:{args.port}  provider={mode}"
-        f"  runs_dir={settings.runs_dir}"
-    )
-    uvicorn.run(app, host=args.host, port=args.port, log_level="info")
+    if use_desktop_pipe and sys.platform == "win32":
+        from app.desktop_adb import bundled_adb_server
+
+        adb_server = bundled_adb_server()
+    else:
+        adb_server = nullcontext()
+
+    with adb_server:
+        settings = build_settings(args)
+        app = create_app(settings)
+        mode = app.state.provider.mode
+        print(
+            f"[pd-backend] listening http://{args.host}:{args.port}  provider={mode}"
+            f"  runs_dir={settings.runs_dir}"
+        )
+        if use_desktop_pipe:
+            # Windows cannot deliver a graceful SIGTERM to a hidden child. The desktop shell
+            # owns the write end of this pipe, so EOF also covers a shell crash or forced exit.
+            server = uvicorn.Server(uvicorn.Config(
+                app, host=args.host, port=args.port, log_level="info", timeout_graceful_shutdown=2,
+            ))
+
+            def wait_for_parent_exit() -> None:
+                try:
+                    stdin_fd = sys.stdin.fileno()
+                    # Read the descriptor directly. A daemon blocked in a buffered stream can
+                    # hold its lock while Python is shutting down after a startup failure.
+                    while os.read(stdin_fd, 4096):
+                        pass
+                except (AttributeError, OSError, ValueError):
+                    pass
+                server.should_exit = True
+
+            threading.Thread(target=wait_for_parent_exit, name="desktop-parent-pipe", daemon=True).start()
+            server.run()
+            return 0 if server.started else 1
+        uvicorn.run(app, host=args.host, port=args.port, log_level="info")
     return 0
 
 

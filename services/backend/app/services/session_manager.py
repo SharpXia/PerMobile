@@ -18,10 +18,11 @@ import itertools
 import json
 import logging
 import shutil
+import sys
 import threading
 from dataclasses import replace
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import TYPE_CHECKING, Any, Callable
 
 from ..config import BUFFER_WINDOW_MS, Settings
@@ -69,6 +70,12 @@ def validate_case_name(case_name: Any) -> str | None:
             "caseName 只能是单一路径名称，不能包含路径分隔符或 ..",
             field="caseName",
         )
+    if sys.platform == "win32" and (
+        name.endswith(".")
+        or PureWindowsPath(name).is_reserved()
+        or any(char in '<>:"|?*' or ord(char) < 32 for char in name)
+    ):
+        raise validation_error("caseName 含 Windows 不支持的目录名称或字符", field="caseName")
     return name
 
 

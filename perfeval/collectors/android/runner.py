@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
 
-from .adb import AdbClient, launch_command, parse_launcher_activity_component
+from .adb import ADB_CREATION_FLAGS, AdbClient, launch_command, parse_launcher_activity_component
 from .collector import index_android_artifacts, parse_android_artifacts
 from .flow import InteractionCommand
 from .plan import (
@@ -87,10 +87,12 @@ def default_command_runner(command: list[str], timeout: float | None) -> subproc
         text=True,
         encoding="utf-8",
         errors="replace",
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         timeout=timeout,
         check=False,
+        creationflags=ADB_CREATION_FLAGS,
     )
 
 

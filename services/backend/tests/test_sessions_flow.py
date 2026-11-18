@@ -147,6 +147,19 @@ def test_save_case_name_validation_blocks_path_escape(client: TestClient) -> Non
     client.post(f"/api/sessions/{sid}/discard")
 
 
+def test_save_case_name_rejects_windows_reserved_names(client: TestClient, monkeypatch) -> None:
+    from app.services import session_manager
+
+    monkeypatch.setattr(session_manager.sys, "platform", "win32")
+    session = make_session(client)
+    uri = f"/api/sessions/{session['id']}/save"
+    for case_name in ("NUL", "COM1.txt", "test.", "run:alternate", "bad?name"):
+        response = client.post(uri, json={"caseName": case_name})
+        assert response.status_code == 400
+        assert _error_body(response)["details"]["field"] == "caseName"
+    assert client.post(uri, json={"caseName": "实机采集 with spaces"}).status_code == 200
+
+
 def test_monitoring_save_duplicate_case_name_keeps_both_runs(client: TestClient) -> None:
     first_sid = make_session(client)["id"]
     first = client.post(

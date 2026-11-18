@@ -10,11 +10,15 @@ from __future__ import annotations
 
 import itertools
 import json
+import subprocess
+import sys
+import threading
 from typing import Any
 
+import pytest
 from fastapi.testclient import TestClient
 
-from app.services import custom_events
+from app.services import custom_events, log_stream
 from conftest import make_session
 from m4_fixtures import make_real_client, make_recording_session, wait_until
 
@@ -32,6 +36,8 @@ class _StubBus:
 
 
 class _StubSession:
+    id = "sess-test"
+
     def __init__(self) -> None:
         self.bus = _StubBus()
         self.markers: list[dict[str, Any]] = []
@@ -49,6 +55,9 @@ class _StubSession:
         self.code_markers_list.append(entry)
 
     def logcat_stream_ended(self) -> None:
+        self.stream_ended = True
+
+    def log_stream_ended(self) -> None:
         self.stream_ended = True
 
 
@@ -109,6 +118,47 @@ def test_line_source_self_terminated_no_diagnostic() -> None:
         list(lines2)
     unavailable2 = [e for e in session2.bus.events if e.get("code") == "custom.channel.unavailable"]
     assert len(unavailable2) == 1 and "code=1" in unavailable2[0]["message"]
+
+
+@pytest.mark.parametrize("log_format", ["epoch", "threadtime"])
+def test_stop_interrupts_silent_adb_child(monkeypatch, tmp_path, log_format: str) -> None:
+    session = _StubSession()
+    adb_path = tmp_path / "应用目录 with spaces" / "adb.exe"
+    monkeypatch.setenv("PERFEVAL_ADB_PATH", str(adb_path))
+    ready = threading.Event()
+    popen = subprocess.Popen
+    processes = []
+
+    def fake_adb(command, **kwargs):
+        assert command == [str(adb_path), "-s", "S1", "logcat", "-T", "1", "-v", log_format]
+        process = popen(
+            [sys.executable, "-u", "-c", "import time; print('ready'); time.sleep(30)"],
+            **kwargs,
+        )
+        processes.append(process)
+        return process
+
+    monkeypatch.setattr(subprocess, "Popen", fake_adb)
+    if log_format == "epoch":
+        source = custom_events.adb_logcat_line_source(session, "S1")
+        channel = custom_events.LogcatEventChannel(session, source)
+    else:
+        source = log_stream.adb_logcat_time_source("S1")
+        channel = log_stream.LogStreamChannel(session, source)
+    monkeypatch.setattr(channel, "handle_line", lambda _line: ready.set())
+    try:
+        channel.start()
+        assert ready.wait(5)
+        channel.stop()
+        assert len(processes) == 1
+        assert processes[0].poll() is not None
+        assert session.stream_ended
+    finally:
+        for process in processes:
+            if process.poll() is None:
+                process.kill()
+                process.wait(timeout=5)
+        channel.stop()
 
 
 # ---- 行解析分派（纯逻辑）----

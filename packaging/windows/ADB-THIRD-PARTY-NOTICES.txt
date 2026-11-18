@@ -1,0 +1,37 @@
+Windows x64 Android Debug Bridge (ADB) distribution
+
+The executable and adjacent DLLs in this directory are original binaries
+from MSYS2's CLANG64 packages. PerMobile's license covers its own code only.
+The bundled programs, libraries, and source code retain their upstream
+licenses. adb-lock.json records the exact package versions and SHA-256 hashes.
+
+* ADB 37.0.0 (Android Open Source Project / nmeum/android-tools) and the
+  MSYS2-built AdbWinApi and AdbWinUsbApi libraries use the Apache License 2.0.
+  Their texts and notices are in android-tools/. BoringSSL is built into adb;
+  see android-tools/BoringSSL-LICENSE for its licenses.
+  https://packages.msys2.org/packages/mingw-w64-clang-x86_64-android-tools
+  https://github.com/nmeum/android-tools/tree/37.0.0
+  https://github.com/msys2/adbwinapi/releases/tag/37.0.0
+
+* ADB uses libusb under the GNU Lesser General Public License 2.1 or later.
+  Its license and notices are in android-tools/. The unmodified MSYS2 source
+  package mingw-w64-android-tools-37.0.0-2.src.tar.zst is included here. It
+  contains the ADB and libusb sources, the companion WinUSB library sources,
+  build scripts and patches. To build or relink the standalone executable
+  with a modified libusb, extract that archive and run makepkg-mingw in
+  mingw-w64-android-tools from a MSYS2 CLANG64 shell. PKGBUILD lists build
+  dependencies and applies the MSYS2 patches. Replace the resulting ADB
+  files in this directory to use the modified build. The libusb license
+  permits modification for your own use and reverse engineering to debug
+  such modifications.
+  https://libusb.info/
+  https://repo.msys2.org/mingw/sources/mingw-w64-android-tools-37.0.0-2.src.tar.zst
+
+* The adjacent DLLs also include Abseil (Apache-2.0), Brotli (MIT),
+  libc++ (Apache-2.0 with LLVM exceptions), mingw-w64 winpthreads (MIT and
+  BSD notices), LZ4 (BSD-2-Clause), Protobuf (BSD-3-Clause), utf8_range
+  (MIT), zlib (Zlib), and Zstandard (BSD-3-Clause). See the
+  accompanying license texts for the respective copyright holders and terms.
+  https://repo.msys2.org/mingw/clang64/
+  https://github.com/lz4/lz4/blob/v1.10.0/lib/LICENSE
+  https://github.com/protocolbuffers/protobuf/blob/v35.1/third_party/utf8_range/LICENSE

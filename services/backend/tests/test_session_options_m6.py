@@ -261,7 +261,7 @@ def test_parse_logcat_threadtime_real_device_lines() -> None:
     """实机验证修复（2026-11-03）：真机/模拟器（均 Android 16）threadtime 实测行。
 
     Android 16 的 `-v time` 输出 `L/TAG(PID):` 简要格式（与解析正则不匹配 →
-    整流静默丢弃），已改 `-v threadtime`；以下为 RFCX701D8KR / emulator-5554
+    整流静默丢弃），已改 `-v threadtime`；以下为 ANDROID-TEST-01 / emulator-5554
     实测原文行（含带点/带 @ 的 tag）。
     """
     from app.services.log_stream import parse_logcat_time_line
@@ -289,21 +289,22 @@ def test_parse_logcat_threadtime_real_device_lines() -> None:
     )
 
 
-def test_logcat_source_uses_threadtime() -> None:
+def test_logcat_source_uses_threadtime(monkeypatch, tmp_path) -> None:
     """实机验证修复（2026-11-03）：real 日志流命令必须是 `logcat -v threadtime`。"""
-    import subprocess
     from unittest.mock import patch
 
     from app.services.log_stream import adb_logcat_time_source
 
+    adb_path = tmp_path / "应用目录 with spaces" / "adb.exe"
+    monkeypatch.setenv("PERFEVAL_ADB_PATH", str(adb_path))
     with patch("subprocess.Popen") as popen:
-        popen.returncode = None
-        source_factory = adb_logcat_time_source("RFCX701D8KR")
+        popen.return_value.returncode = 0
+        source_factory = adb_logcat_time_source("ANDROID-TEST-01")
         source = source_factory()
         assert source is not None
-        source.close()  # 生成器未消费即关闭
+        source.close()
     cmd = popen.call_args[0][0]
-    assert cmd[:7] == ["adb", "-s", "RFCX701D8KR", "logcat", "-T", "1", "-v"] and cmd[7] == "threadtime"
+    assert cmd == [str(adb_path), "-s", "ANDROID-TEST-01", "logcat", "-T", "1", "-v", "threadtime"]
 
 
 def test_synthetic_log_source_shape() -> None:

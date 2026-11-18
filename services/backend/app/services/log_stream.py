@@ -14,10 +14,11 @@
 from __future__ import annotations
 
 import re
-import subprocess
 import threading
 from collections.abc import Callable, Iterator
 from typing import Any
+
+from .adb_logcat import AdbLogcatLines, open_adb_logcat
 
 # 级别序（契约 §21.7 logLevel 枚举；index 越大级别越高）
 LOG_LEVELS = ("verbose", "debug", "info", "warn", "error")
@@ -52,7 +53,9 @@ def level_passes(line_level: str, selected: str) -> bool:
     return line_index >= selected_index
 
 
-def adb_logcat_time_source(serial: str, adb_path: str = "adb") -> Callable[[], Iterator[str] | None]:
+def adb_logcat_time_source(
+    serial: str, adb_path: str | None = None
+) -> Callable[[], Iterator[str] | None]:
     """``adb -s <serial> logcat -v threadtime`` 行源工厂（契约 §21.7 real 通道）。
 
     实机验证修复（2026-11-03）：原 `-v time` 在 Android 16（SM_F9560 与
@@ -68,42 +71,11 @@ def adb_logcat_time_source(serial: str, adb_path: str = "adb") -> Callable[[], I
 
     logger = logging.getLogger("pd-backend.log-stream")
 
+    def on_failure(returncode: int, _stderr_tail: str) -> None:
+        logger.info("logcat 流退出（code=%s）", returncode)
+
     def source() -> Iterator[str] | None:
-        try:
-            process = subprocess.Popen(
-                [adb_path, "-s", serial, "logcat", "-T", "1", "-v", "threadtime"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-            )
-        except (OSError, ValueError):
-            return None
-
-        def lines() -> Iterator[str]:
-            try:
-                if process.stdout is not None:
-                    for line in process.stdout:
-                        yield line
-            finally:
-                if process.poll() is None:
-                    process.terminate()
-                    try:
-                        process.wait(timeout=2.0)
-                    except subprocess.TimeoutExpired:
-                        process.kill()
-                if process.returncode not in (0, None):
-                    logger.info(
-                        "logcat 流退出（code=%s）", process.returncode
-                    )
-                if process.stderr is not None:
-                    try:
-                        process.stderr.close()
-                    except OSError:
-                        pass
-
-        return lines()
+        return open_adb_logcat(serial, "threadtime", on_failure, adb_path=adb_path)
 
     return source
 
@@ -130,6 +102,7 @@ class LogStreamChannel:
         self._line_source = line_source
         self._stop_event = threading.Event()
         self._thread: threading.Thread | None = None
+        self._adb_lines: AdbLogcatLines | None = None
         self._pace_s = max(0.0, float(pace_s))
         self._sleep = sleep if sleep is not None else self._stop_event.wait
         self._line_parser = line_parser or parse_logcat_time_line
@@ -143,6 +116,9 @@ class LogStreamChannel:
 
     def stop(self) -> None:
         self._stop_event.set()
+        adb_lines = self._adb_lines
+        if adb_lines is not None:
+            adb_lines.stop()
         if self._thread is not None:
             self._thread.join(timeout=3.0)
             self._thread = None
@@ -158,7 +134,11 @@ class LogStreamChannel:
                 detail=None,
             )
             return
+        if isinstance(source, AdbLogcatLines):
+            self._adb_lines = source
         try:
+            if self._stop_event.is_set():
+                return
             for line in source:
                 if self._stop_event.is_set():
                     break
@@ -166,6 +146,7 @@ class LogStreamChannel:
                 if self._pace_s > 0:
                     self._sleep(self._pace_s)
         finally:
+            self._adb_lines = None
             close = getattr(source, "close", None)
             if close is not None:
                 try:

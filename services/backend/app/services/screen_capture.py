@@ -31,7 +31,7 @@ import time
 from pathlib import Path
 from typing import Any, Callable
 
-from perfeval.collectors.android.adb import AdbClient
+from perfeval.collectors.android.adb import ADB_CREATION_FLAGS, AdbClient
 from perfeval.collectors.android.flow import InteractionCommand
 from perfeval.collectors.android.plan import (
     SCREENRECORD_DEFAULT_BITRATE_MBPS,
@@ -204,10 +204,12 @@ def capture_screenshot_bytes(
     try:
         completed = subprocess.run(
             command,
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=timeout,
             check=False,
+            creationflags=ADB_CREATION_FLAGS,
         )
     except (OSError, subprocess.SubprocessError) as exc:
         raise _pull_failed(f"screencap 执行失败: {exc}") from exc

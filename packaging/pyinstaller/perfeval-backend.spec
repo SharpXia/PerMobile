@@ -15,14 +15,16 @@ frozen 落点（runs/cases_db/frontend dist）由 app.config / app.main 冻结�
 
 from __future__ import annotations
 
+import os
 import sys
+import sysconfig
 from pathlib import Path
 
-from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import collect_data_files, copy_metadata
 
 ROOT = Path(SPECPATH).resolve().parents[1]
 BACKEND_DIR = ROOT / "services" / "backend"
-FRONTEND_DIST = ROOT / "services" / "frontend" / "dist"
+FRONTEND_DIST = Path(os.environ.get("PERFEVAL_FRONTEND_DIST", ROOT / "services" / "frontend" / "dist"))
 
 # 前端 dist（生产态窗口加载 http://127.0.0.1:8737，静态托管在 sidecar 侧）：
 # 打进 frontend-dist/ 数据目录，运行期经 app.main._static_dist_dir 冻结分支解析。
@@ -34,7 +36,19 @@ if not (FRONTEND_DIST / "index.html").is_file():
 
 datas = [
     (str(FRONTEND_DIST), "frontend-dist"),
+    (str(ROOT / "LICENSE"), "licenses/PerMobile"),
+    (str(ROOT / "packaging" / "licenses" / "Apache-2.0.txt"), "licenses/ECharts"),
 ]
+for license_file in (
+    Path(sys.base_prefix) / "LICENSE.txt",  # Windows
+    Path(sysconfig.get_path("stdlib")) / "LICENSE.txt",  # macOS
+):
+    if license_file.is_file():
+        datas.append((str(license_file), "licenses/Python"))
+        break
+for dependency in ("fastapi", "uvicorn", "openpyxl"):
+    # Wheel metadata retains copyright and license files for runtime dependencies.
+    datas += copy_metadata(dependency, recursive=True)
 # perfeval 运行期数据面：echarts vendor（report.html 离线图表）+ golden fixtures
 # （离线导入 parity 路径，与 GUI spec 同一 includes 口径）
 datas += collect_data_files(

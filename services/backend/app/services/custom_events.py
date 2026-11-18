@@ -30,11 +30,12 @@ from __future__ import annotations
 
 import logging
 import math
-import subprocess
 import threading
 from typing import Any, Callable, Iterator
 
 from perfeval.collectors.android.logcat import parse_logcat
+
+from .adb_logcat import AdbLogcatLines, open_adb_logcat
 
 logger = logging.getLogger("pd-backend.custom-events")
 
@@ -56,8 +57,7 @@ def adb_logcat_line_source(
       ``custom.channel.unavailable`` 诊断（docstring 约定：不可用由调用方出诊断）；
     - 进程秒退（设备不在线等非零退出）→ 行迭代器耗尽，耗尽处按 stderr 尾部
       出同一诊断——秒退与正常结束对消费方不可区分，须在源头说明；
-    - 正常长流被 stop() 中断 → 生成器 close() 触发 finally 终止进程（0/None
-      退出码不出诊断）。
+    - 正常长流被 stop() 中断 → 终止进程并关闭管道。
 
     ``session`` 仅用于诊断广播；命令构造与 perfeval plan.py:219 collect_logcat
     同形（``logcat -v epoch``，去 ``-d`` 改为流式跟随）。
@@ -69,63 +69,20 @@ def adb_logcat_line_source(
     首 epoch 行 ≈ 会话开始时刻。
     """
 
+    def on_failure(returncode: int, stderr_tail: str) -> None:
+        session.bus.publish(
+            "diagnostic",
+            code=CHANNEL_UNAVAILABLE_CODE,
+            severity="warn",
+            message=(
+                f"自定义打点通道 logcat 流异常退出（code={returncode}）"
+                f"{'：' + stderr_tail if stderr_tail else ''}"
+            ),
+            detail=None,
+        )
+
     def source() -> Iterator[str] | None:
-        try:
-            process = subprocess.Popen(
-                ["adb", "-s", serial, "logcat", "-T", "1", "-v", "epoch"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-            )
-        except (OSError, ValueError):
-            return None
-
-        def lines() -> Iterator[str]:
-            try:
-                if process.stdout is not None:
-                    for line in process.stdout:
-                        yield line
-            finally:
-                # 实机验证修复（2026-11-03）：会话收口经生成器 close() 触发本
-                # finally，由我们 terminate 的进程 rc=-15（SIGTERM）是正常终止
-                # ——docstring 既有口径「正常终止退出码不出诊断」；此前实现把
-                # 自终止也当异常广播 custom.channel.unavailable（真机
-                # record/stop 实测复现误报）。
-                terminated_by_us = False
-                if process.poll() is None:
-                    terminated_by_us = True
-                    process.terminate()
-                    try:
-                        process.wait(timeout=2.0)
-                    except subprocess.TimeoutExpired:
-                        process.kill()
-                if not terminated_by_us and process.returncode not in (0, None):
-                    stderr_tail = ""
-                    if process.stderr is not None:
-                        try:
-                            stderr_tail = (process.stderr.read() or "").strip()[-200:]
-                            process.stderr.close()
-                        except OSError:
-                            stderr_tail = ""
-                    session.bus.publish(
-                        "diagnostic",
-                        code=CHANNEL_UNAVAILABLE_CODE,
-                        severity="warn",
-                        message=(
-                            f"自定义打点通道 logcat 流异常退出（code={process.returncode}）"
-                            f"{'：' + stderr_tail if stderr_tail else ''}"
-                        ),
-                        detail=None,
-                    )
-                elif process.stderr is not None:
-                    try:
-                        process.stderr.close()
-                    except OSError:
-                        pass
-
-        return lines()
+        return open_adb_logcat(serial, "epoch", on_failure)
 
     return source
 
@@ -157,6 +114,7 @@ class LogcatEventChannel:
         self._line_source = line_source
         self._stop_event = threading.Event()
         self._thread: threading.Thread | None = None
+        self._adb_lines: AdbLogcatLines | None = None
 
     # ---- 生命周期 ----
 
@@ -169,6 +127,9 @@ class LogcatEventChannel:
 
     def stop(self) -> None:
         self._stop_event.set()
+        adb_lines = self._adb_lines
+        if adb_lines is not None:
+            adb_lines.stop()
         if self._thread is not None:
             self._thread.join(timeout=3.0)
             self._thread = None
@@ -195,7 +156,11 @@ class LogcatEventChannel:
                 detail=None,
             )
             return
+        if isinstance(source, AdbLogcatLines):
+            self._adb_lines = source
         try:
+            if self._stop_event.is_set():
+                return
             for line in source:
                 if self._stop_event.is_set():
                     break
@@ -204,10 +169,9 @@ class LogcatEventChannel:
                 except Exception as exc:  # noqa: BLE001 —— 单行分派异常不杀通道
                     logger.warning("PERFEVAL_EVENT 行分派失败：%s", exc)
         finally:
+            self._adb_lines = None
             close = getattr(source, "close", None)
             if close is not None:
-                # 显式 close 生成器：行源生成器的 finally 负责终止 adb 进程
-                # （仅 break 不会立即触发生成器清理，进程会悬挂）
                 try:
                     close()
                 except Exception:  # noqa: BLE001 —— 清理失败不掩盖主流程

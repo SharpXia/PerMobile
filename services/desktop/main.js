@@ -14,13 +14,10 @@
  *          并自行静态托管 Vue3 dist（约定见 README「打包约定」）。
  *   3. 轮询 GET /api/health 直到 status === 'ok'（30s 超时弹错误对话框）。
  *   4. BrowserWindow：开发态加载 http://localhost:5173（Vite dev server），
- *      生产态加载 http://127.0.0.1:8737（后端静态托管前端 dist）。
- *   5. window-all-closed：SIGTERM → 5s 超时 SIGKILL 收口后端，再 app.quit()。
+ *      生产态加载后端同源页面（默认 http://127.0.0.1:8737）。
+ *   5. 退出时关闭 Windows 打包后端的父进程管道，其他环境发送 SIGTERM；超时强制结束。
  *
- * 安全模型：contextIsolation=true / nodeIntegration=false；preload 只经
- * contextBridge 白名单暴露 appVersion / platform。sandbox=false 是刻意选择——
- * sandboxed preload 的 electron 模块子集没有 app，取不到 app.getVersion()；
- * 渲染层仍与 Node 完全隔离。
+ * 渲染进程隔离 Node；preload 只经 contextBridge 暴露 appVersion / platform。
  *
  * 可测性：本文件在普通 Node 下 require 时不做任何 Electron 引导（process.type
  * 仅在 Electron 主进程为 'browser'），导出的纯逻辑函数供 /tmp 冒烟脚本复用。
@@ -37,11 +34,13 @@ const fs = require('node:fs');
 const BACKEND_HOST = '127.0.0.1';
 // 端口可经环境变量另指（默认 8737 与 run.py/契约一致）——占用探测给出可行动出口时用
 const BACKEND_PORT = Number.parseInt(process.env.PERFEVAL_BACKEND_PORT || '8737', 10) || 8737;
-const BACKEND_ORIGIN = `http://${BACKEND_HOST}:${BACKEND_PORT}`;
+const backendOriginFor = (port) => `http://${BACKEND_HOST}:${port}`;
+const BACKEND_ORIGIN = backendOriginFor(BACKEND_PORT);
 const HEALTH_PATH = '/api/health';
 const HEALTH_TIMEOUT_MS = 30_000;
 const HEALTH_POLL_INTERVAL_MS = 500;
 const BACKEND_SHUTDOWN_GRACE_MS = 5_000;
+const WINDOWS_BACKEND_SHUTDOWN_GRACE_MS = 15_000; // 给 Android 录屏 pull 留出时间
 const DEV_ORIGIN = 'http://localhost:5173';
 const REPO_ROOT = path.join(__dirname, '..', '..');
 // Vite dev server 既有 CORS 来源（services/backend/app/config.py 缺省）+ 壳同源：
@@ -70,7 +69,7 @@ function resolveDevPython(repoRoot = REPO_ROOT) {
 
 /**
  * 解析 sidecar 启动命令。
- * @param {{isPackaged?: boolean, resourcesPath?: string|null, repoRoot?: string}} opts
+ * @param {{isPackaged?: boolean, resourcesPath?: string|null, repoRoot?: string, port?: number}} opts
  * @returns {{command: string, args: string[], cwd: string}}
  */
 function resolveBackendCommand(opts = {}) {
@@ -78,8 +77,9 @@ function resolveBackendCommand(opts = {}) {
     isPackaged = false,
     resourcesPath = null,
     repoRoot = REPO_ROOT,
+    port = BACKEND_PORT,
   } = opts;
-  const args = ['--host', BACKEND_HOST, '--port', String(BACKEND_PORT)];
+  const args = ['--host', BACKEND_HOST, '--port', String(port)];
   if (isPackaged) {
     const bin =
       process.env.PERFEVAL_BACKEND_BIN ||
@@ -138,18 +138,37 @@ function resolveRunsDir(opts = {}) {
 }
 
 /**
- * sidecar 进程注入环境（壳流前置第③⑤项）：PD_RUNS_DIR（打包态）+ PD_CORS_ORIGINS
- * （dev 来源 + 壳同源；后端缺省只含 dev 来源，壳侧扩展为同一清单 + BACKEND_ORIGIN）。
- * @param {{isPackaged?: boolean}} opts
+ * sidecar 使用独立的数据目录和 CORS 配置。Windows 安装包用自身的 ADB，且只改子进程 PATH。
+ * @param {{isPackaged?: boolean, resourcesPath?: string|null, port?: number, platform?: string, environ?: NodeJS.ProcessEnv}} opts
  * @returns {Record<string, string>}
  */
 function resolveSidecarEnv(opts = {}) {
+  const {
+    isPackaged = false,
+    resourcesPath = null,
+    port = BACKEND_PORT,
+    platform = process.platform,
+    environ = process.env,
+  } = opts;
   const env = {};
   const runsDir = resolveRunsDir(opts);
   if (runsDir) {
     env.PD_RUNS_DIR = runsDir;
   }
-  env.PD_CORS_ORIGINS = [...DEV_CORS_ORIGINS, BACKEND_ORIGIN].join(',');
+  env.PD_CORS_ORIGINS = [...DEV_CORS_ORIGINS, backendOriginFor(port)].join(',');
+  if (isPackaged && platform === 'win32') {
+    if (!resourcesPath) {
+      throw new Error('无法定位 Windows 安装包资源目录。');
+    }
+    const adbPath = path.resolve(resourcesPath, 'platform-tools', 'adb.exe');
+    if (!fs.statSync(adbPath, { throwIfNoEntry: false })?.isFile()) {
+      throw new Error(`安装目录缺少 ADB：${adbPath}\n请使用完整的 PerfEval Desktop Windows 安装包重新安装。`);
+    }
+    const pathKey = Object.keys(environ).find((name) => name.toUpperCase() === 'PATH') || 'Path';
+    env[pathKey] = [path.dirname(adbPath), environ[pathKey]].filter(Boolean).join(';');
+    env.PERFEVAL_ADB_PATH = adbPath;
+    env.PERFEVAL_PARENT_STDIN = '1';
+  }
   return env;
 }
 
@@ -174,6 +193,17 @@ function probePortOccupied(opts = {}) {
   });
 }
 
+function findAvailableBackendPort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.once('error', reject);
+    server.listen({ host: BACKEND_HOST, port: 0 }, () => {
+      const { port } = server.address();
+      server.close((err) => (err ? reject(err) : resolve(port)));
+    });
+  });
+}
+
 /**
  * 残留 sidecar 自动清理（2026-11-11 真机验收修复）：仅当占用者经 /api/health
  * 指纹确认是本应用后端（backend.framework=fastapi）时，按 pid SIGTERM→2s→SIGKILL
@@ -183,6 +213,7 @@ function probePortOccupied(opts = {}) {
  * @returns {Promise<boolean>} 是否清理了自家残留
  */
 function reapStaleBackend() {
+  if (process.platform === 'win32') return Promise.resolve(false);
   const healthFingerprint = new Promise((resolve) => {
     const req = http.get(`${BACKEND_ORIGIN}${HEALTH_PATH}`, { timeout: 2000 }, (res) => {
       let data = '';
@@ -252,8 +283,8 @@ function reapStaleBackend() {
 
 // sidecar 进程状态（单实例：同一时刻至多一个）
 let backendProc = null;
-let backendStopping = false;
 let backendExited = false; // startBackend 后 sidecar 是否已退出（健康轮询提前失败用）
+let backendShutdownPromise = null; // 重复 quit 等待同一次收尾
 const backendLogTail = []; // stderr/stdout 尾部环形缓冲，超时对话框里给用户看现场
 
 function pushBackendLog(line) {
@@ -269,18 +300,25 @@ function pushBackendLog(line) {
  */
 function startBackend(opts = {}) {
   const { command, args, cwd } = resolveBackendCommand(opts);
+  const sidecarEnv = resolveSidecarEnv(opts);
+  const useParentPipe = sidecarEnv.PERFEVAL_PARENT_STDIN === '1';
   console.log(
     `[perfeval-desktop] 启动后端 sidecar: ${command} ${args.join(' ')} (cwd=${cwd})`
   );
   const proc = spawn(command, args, {
     cwd,
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: [useParentPipe ? 'pipe' : 'ignore', 'pipe', 'pipe'],
     windowsHide: true,
-    env: { ...process.env, PYTHONUNBUFFERED: '1', ...resolveSidecarEnv(opts) },
+    env: { ...process.env, PYTHONUNBUFFERED: '1', PERFEVAL_PARENT_STDIN: '0', ...sidecarEnv },
   });
   backendProc = proc;
-  backendStopping = false;
   backendExited = false;
+  backendShutdownPromise = null;
+  backendLogTail.length = 0;
+
+  proc.stdin?.on('error', (err) => {
+    pushBackendLog(`关闭后端管道失败：${err.message}`);
+  });
 
   for (const streamName of ['stdout', 'stderr']) {
     proc[streamName].setEncoding('utf8');
@@ -293,7 +331,7 @@ function startBackend(opts = {}) {
     });
   }
   proc.on('error', (err) => {
-    // spawn 本身失败（ENOENT 等）；健康轮询 30s 兜底，这里只记现场
+    if (!proc.pid) backendExited = true;
     pushBackendLog(`spawn 失败: ${err.message}`);
     console.error(`[perfeval-desktop] sidecar spawn 失败: ${err.message}`);
   });
@@ -371,47 +409,45 @@ function waitForBackendHealthy(opts = {}) {
 }
 
 /**
- * 收口 sidecar：SIGTERM，5s 超时升级 SIGKILL。幂等，返回 Promise（exit 后 resolve）。
+ * Windows 安装版以 stdin EOF 触发 ASGI 正常收尾，超时结束自己启动的子进程。
  */
-let backendShutdownPromise = null; // 唯一收口 promise：重复 quit 等同一次收口，不放行
 function shutdownBackend() {
   if (!backendProc) return Promise.resolve();
   if (backendShutdownPromise) return backendShutdownPromise;
-  // 收口只发起一次（SIGTERM → 5s 超时 SIGKILL）；此后任何调用者（before-quit /
-  // window-all-closed 的多次重入）都 await 同一个 promise——否则第二次 quit 直接
-  // 放行主进程退出，SIGKILL 升级定时器随进程死掉，卡在优雅关闭的 sidecar 成孤儿
-  // （2026-11-11 用户「Cmd+Q 后重启异常」路径的精确机制）。
-  backendStopping = true;
   const proc = backendProc;
+  const graceMs = proc.stdin ? WINDOWS_BACKEND_SHUTDOWN_GRACE_MS : BACKEND_SHUTDOWN_GRACE_MS;
   backendShutdownPromise = new Promise((resolve) => {
-    let done = false;
+    let forceTimer;
+    let finishTimer;
     const finish = () => {
-      if (!done) {
-        done = true;
-        resolve();
-      }
+      clearTimeout(forceTimer);
+      clearTimeout(finishTimer);
+      proc.off('exit', finish);
+      resolve();
     };
-    proc.once('exit', finish);
-    try {
-      proc.kill('SIGTERM');
-      console.log('[perfeval-desktop] 已向 sidecar 发送 SIGTERM');
-    } catch (err) {
-      console.warn(`[perfeval-desktop] SIGTERM 失败：${err.message}`);
+    if (backendExited || !proc.pid) {
       finish();
       return;
     }
-    setTimeout(() => {
-      if (done) return;
-      console.warn(
-        `[perfeval-desktop] sidecar ${BACKEND_SHUTDOWN_GRACE_MS}ms 内未退出，升级 SIGKILL`
-      );
+    proc.once('exit', finish);
+    forceTimer = setTimeout(() => {
+      console.warn(`[perfeval-desktop] sidecar ${graceMs}ms 内未退出，尝试强制结束`);
       try {
         proc.kill('SIGKILL');
       } catch (err) {
-        console.warn(`[perfeval-desktop] SIGKILL 失败：${err.message}`);
+        console.warn(`[perfeval-desktop] 强制结束 sidecar 失败：${err.message}`);
       }
-      setTimeout(finish, 1_000); // SIGKILL 后兜底，防句柄阻塞退出
-    }, BACKEND_SHUTDOWN_GRACE_MS);
+      finishTimer = setTimeout(finish, 1_000);
+    }, graceMs);
+    try {
+      if (proc.stdin) {
+        proc.stdin.end();
+      } else {
+        proc.kill('SIGTERM');
+      }
+    } catch (err) {
+      console.warn(`[perfeval-desktop] 请求后端退出失败：${err.message}`);
+    }
   }).finally(() => {
     backendProc = null;
   });
@@ -436,9 +472,8 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      // 刻意关闭：sandboxed preload 无 app 模块，取不到 app.getVersion()；
-      // 渲染层仍被 contextIsolation 与 Node 隔离（见文件头安全模型注释）。
-      sandbox: false,
+      sandbox: true,
+      additionalArguments: [`--perfeval-app-version=${app.getVersion()}`],
       spellcheck: false,
     },
   });
@@ -456,9 +491,9 @@ function createWindow() {
   return mainWindow;
 }
 
-/** 加载页面：生产态=后端同源（8737），开发态=Vite dev server（5173）。 */
-async function loadApp() {
-  const url = app.isPackaged ? BACKEND_ORIGIN : DEV_ORIGIN;
+/** 加载页面：生产态为后端同源，开发态使用 Vite dev server。 */
+async function loadApp(backendOrigin) {
+  const url = app.isPackaged ? backendOrigin : DEV_ORIGIN;
   try {
     await mainWindow.loadURL(url);
   } catch (err) {
@@ -568,35 +603,29 @@ function bootstrap() {
     } catch (err) {
       console.warn(`[perfeval-desktop] 清缓存失败（不阻断）：${err.message}`);
     }
-    // 端口占用探测（壳流前置第④项）：spawn 前给出可行动的错误，而不是让子进程
-    // 绑定失败后在健康轮询里以「sidecar 已退出」掩盖真因（lane 实际踩过：孤儿
-    // run.py 占住 8737）。单实例锁只拦同应用二次启动，拦不住外部占用者。
-    // 2026-11-11：自家残留（quit 时 SSE 挂住 uvicorn 产生的孤儿 sidecar）经
-    // health 指纹确认后自动清理并继续启动，用户不再需要手动敲命令。
-    if (await probePortOccupied()) {
-      const reaped = await reapStaleBackend();
-      if (!reaped) {
-        const hint =
-          process.platform === 'win32'
-            ? `netstat -ano | findstr :${BACKEND_PORT} 后 taskkill /PID <pid> /F`
-            : `lsof -ti :${BACKEND_PORT} | xargs kill`;
-        dialog.showErrorBox(
-          `端口 ${BACKEND_PORT} 已被占用`,
-          `后端 sidecar 需要 ${BACKEND_HOST}:${BACKEND_PORT}，但该端口当前已有进程监听\n` +
-            `（该占用进程不是本应用后端，无法自动清理）。\n\n` +
-            `请退出占用进程后重试，例如：\n  ${hint}\n\n` +
-            `或为后端另指端口：PERFEVAL_BACKEND_PORT 约定见 services/desktop/README.md。`
-        );
-        app.quit();
-        return;
-      }
-    }
+    let backendOrigin = BACKEND_ORIGIN;
     try {
+      let port = BACKEND_PORT;
+      if (await probePortOccupied()) {
+        if (process.platform === 'win32' && app.isPackaged) {
+          port = await findAvailableBackendPort();
+          console.log(`[perfeval-desktop] 端口 ${BACKEND_PORT} 已占用，后端改用 ${port}`);
+        } else if (!(await reapStaleBackend())) {
+          dialog.showErrorBox(
+            `端口 ${BACKEND_PORT} 已被占用`,
+            `请关闭占用 ${BACKEND_ORIGIN} 的应用后重试，或重新配置后端和前端代理的端口。`
+          );
+          app.quit();
+          return;
+        }
+      }
+      backendOrigin = backendOriginFor(port);
       startBackend({
         isPackaged: app.isPackaged,
         resourcesPath: app.isPackaged ? process.resourcesPath : null,
+        port,
       });
-      const health = await waitForBackendHealthy();
+      const health = await waitForBackendHealthy({ origin: backendOrigin });
       console.log(
         `[perfeval-desktop] 后端健康检查通过（v${health.version ?? '?'}），加载窗口`
       );
@@ -609,7 +638,7 @@ function bootstrap() {
       return;
     }
     createWindow();
-    await loadApp();
+    await loadApp(backendOrigin);
   });
 
   app.on('window-all-closed', async () => {
@@ -618,13 +647,7 @@ function bootstrap() {
     app.quit();
   });
   app.on('before-quit', (event) => {
-    // Cmd+Q / app.quit() 路径兜底；shutdownBackend 返回唯一收口 promise，重复
-    // 调用等待同一次收口（见 shutdownBackend 注释）。
-    // 2026-11-11 真机验收修复：原 `void shutdownBackend()` fire-and-forget——SSE
-    // 长连接挂住 uvicorn 优雅关闭时，5s SIGKILL 升级定时器随主进程退出而失效，
-    // sidecar 成孤儿占住 8737（复现实录）。改为阻塞：quit 被 preventDefault，
-    // 收口（含 SIGKILL 升级）完成后再显式 quit；收口进行中的第二次 quit 同样
-    // 拦截等待，不得放行（guard 只看 backendProc 是否仍在收尾）。
+    // 等待 sidecar 实际退出，确保强制结束定时器仍有机会运行。
     if (backendProc) {
       event.preventDefault();
       shutdownBackend().finally(() => app.quit());

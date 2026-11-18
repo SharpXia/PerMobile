@@ -22,7 +22,7 @@ import time
 from dataclasses import replace
 from typing import Any
 
-from perfeval.collectors.android.adb import AdbClient
+from perfeval.collectors.android.adb import ADB_CREATION_FLAGS, AdbClient
 from perfeval.collectors.android.samplers import build_samplers, register_sampler
 from perfeval.collectors.android.samplers.base import (
     DeviceContext,
@@ -460,10 +460,12 @@ def _default_command_runner(
         text=True,
         encoding="utf-8",
         errors="replace",
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         timeout=timeout,
         check=False,
+        creationflags=ADB_CREATION_FLAGS,
     )
 
 

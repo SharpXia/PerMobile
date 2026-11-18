@@ -1,10 +1,9 @@
 # backend/ — 后端 sidecar 打包位（预留目录）
 
-electron-builder 的 `extraResources` 把本目录原样拷入应用资源：
+macOS 的 electron-builder 配置从本目录打包后端。Windows 使用 [Windows 发包脚本](../../../packaging/windows/README.md) 生成独立的 x64 暂存目录。
 
 ```
-services/desktop/backend/  →  <应用>/Contents/Resources/backend/   （macOS）
-                           →  <安装目录>/resources/backend/        （Windows）
+services/desktop/backend/  →  <应用>/Contents/Resources/backend/
 ```
 
 主进程生产态按以下顺序解析 sidecar（见 `main.js` 的 `resolveBackendCommand`）：

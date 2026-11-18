@@ -111,14 +111,16 @@ Android 性能评估当前以 Host CLI 为主，已经可用于两类场景：
 - Python 3.11+
 - CLI 核心无第三方 pip 依赖（YAML 解析、JSON、CSV、HTML 均为内置实现）
 - 桌面 GUI 依赖 PySide6；LLM API Key 持久化使用 `keyring` 对接系统凭据库
-- Web 版后端依赖见 `services/backend/requirements.txt`（fastapi/uvicorn/httpx/openpyxl，
-  仓库 `.venv` 已安装）；前端需要 Node 18+ 与 npm（`services/frontend/package.json`）
+- Web 版后端依赖见 `services/backend/requirements.txt`（fastapi/uvicorn/httpx/openpyxl）；
+  前端开发和 Electron 构建使用 Node.js 24 与 npm。
 - Android 采集需要 `adb`（Android Platform Tools）；iOS Simulator 采集需要 `xcrun simctl`（macOS 自带）
 - 可选：Android 设备或模拟器、Perfetto
 - 可选：`trace_processor_shell`（Perfetto 官方发布，Apache-2.0，单文件约 20MB）。缺失不影响其余指标；
   存在时可解析 `.pftrace` 的 frame timeline（逐帧 wall-clock 时间轴）。获取方式：
   `curl -LO https://get.perfetto.dev/trace_processor && chmod +x trace_processor`，
   放置位置按发现链生效：`PERFEVAL_TRACE_PROCESSOR` 环境变量 → GUI 工具路径设置 → `PATH` → 项目 `tools/` 目录（ADR-0001）
+
+Electron 桌面版通过 GitHub Actions 构建 macOS Apple Silicon DMG 和 Windows x64 安装包。Windows 安装包内置后端与 ADB。两端安装包及 SHA-256 校验文件在同一个 GitHub Release 发布。 [桌面版发包流程](services/desktop/README.md#github-自动发布)
 
 ## 安装
 
