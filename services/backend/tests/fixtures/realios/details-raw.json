@@ -297,25 +297,25 @@
    "isMobileDeviceOnly": false,
    "lastConnectionDate": "2026-11-16T03:53:00.000Z",
    "localHostnames": [
-    "xxds-iPhone.coredevice.local",
+    "fixture-iphone.coredevice.local",
     "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20.coredevice.local",
     "00008130-000955B7C2D1E84A.coredevice.local"
    ],
    "pairingState": "paired",
    "potentialHostnames": [
-    "xxds-iPhone.coredevice.local",
+    "fixture-iphone.coredevice.local",
     "6F2A9C41-B8D3-5E07-94A6-1C3D5E7F9B20.coredevice.local",
     "00008130-000955B7C2D1E84A.coredevice.local"
    ],
    "transportType": "localNetwork",
-   "tunnelIPAddress": "fd96:9269:78f2::1",
+   "tunnelIPAddress": "2001:db8::1",
    "tunnelState": "connected",
    "tunnelTransportProtocol": "tcp"
   },
   "deviceProperties": {
    "bootState": "booted",
    "bootedFromSnapshot": true,
-   "bootedSnapshotName": "com.apple.os.update-703ACDDD02006A5ADE1D4C9FB6CE89859F3315F1F71423E1E852EFB5E198E492",
+   "bootedSnapshotName": "com.apple.os.update-0000000000000000000000000000000000000000000000000000000000000000",
    "ddiServicesAvailable": true,
    "developerModeStatus": "enabled",
    "hasInternalOSBuild": false,
@@ -341,7 +341,7 @@
    "platform": "iOS",
    "productType": "iPhone16,2",
    "reality": "physical",
-   "serialNumber": "LQ5CYXR4D5",
+   "serialNumber": "TESTIOS001",
    "supportedCPUTypes": [
     {
      "name": "arm64e",
@@ -371,7 +371,7 @@
     },
     "state": "connected",
     "transportType": "localNetwork",
-    "tunnelIPAddressString": "fd96:9269:78f2::1",
+    "tunnelIPAddressString": "2001:db8::1",
     "tunnelTransportProtocol": "tcp"
    },
    "hardware": {
@@ -392,7 +392,7 @@
     "platform": "iOS",
     "productType": "iPhone16,2",
     "reality": "physical",
-    "serialNumber": "LQ5CYXR4D5",
+    "serialNumber": "TESTIOS001",
     "supportedBiometrics": [
      "faceID"
     ],

@@ -65,6 +65,13 @@ def ports_closed(*ports: int) -> bool:
     return True
 
 
+def smoke_environment() -> dict[str, str]:
+    return {
+        key: value for key, value in os.environ.items()
+        if not key.upper().startswith(("CSC_", "WIN_CSC_", "APPLE_"))
+    }
+
+
 def verify_app(app_dir: Path, scratch: Path, log: Path) -> None:
     exe = app_dir / "PerfEval Desktop.exe"
     adb = app_dir / "resources" / "platform-tools" / "adb.exe"
@@ -77,7 +84,7 @@ def verify_app(app_dir: Path, scratch: Path, log: Path) -> None:
     origin = f"http://127.0.0.1:{port}"
     system_root = os.environ["SystemRoot"]
     env = {
-        key: value for key, value in os.environ.items()
+        key: value for key, value in smoke_environment().items()
         if not key.upper().startswith(("PERFEVAL_", "PD_", "ANDROID_", "ADB_", "PYTHON", "NODE_", "ELECTRON_"))
     }
     env.update({
@@ -163,7 +170,7 @@ def main() -> None:
             app_dir = scratch / "PerfEval 安装 测试"
             # NSIS treats everything after /D= as a directory. /D= is last and unquoted.
             command = f'"{source}" /S /D={app_dir}'
-            subprocess.run(command, executable=str(source), timeout=120, check=True)
+            subprocess.run(command, executable=str(source), env=smoke_environment(), timeout=120, check=True)
 
         log = scratch / "desktop.log"
         try:

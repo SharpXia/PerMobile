@@ -2,7 +2,7 @@
 
 FpsSampler 单测（fake command_runner 应答表：gfxinfo 累计计数序列）+ collector
 装配断言（frame.fps.mean → fps 采样器进 SamplingScheduler）。真机端到端见
-STATUS 验证记录（RFCX701D8KR 实测出数）。
+STATUS 验证记录。
 """
 
 from __future__ import annotations

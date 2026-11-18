@@ -8,14 +8,14 @@
         CFBundleName = Watch;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "1.0";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/A72A486D-D9CF-491A-AA4C-AC57F51DA2E1/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000066/";
         GroupContainers =         {
-            "243LU875E5.groups.com.apple.podcasts" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/46E0C5DE-B523-4153-96FA-3AB8E08054D4/";
-            "group.com.apple.bridge" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/756E8A51-F84D-44CD-A2B4-C3545AFBB538/";
-            "group.com.apple.iBooks" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/ECACA74B-9BDC-41A5-B62C-87FABB42E59C/";
-            "group.com.apple.mail" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/86CE6A64-914D-48B2-90CF-2CAFCD69D413/";
-            "group.com.apple.stocks" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/BD3D8977-4A4F-46F1-AB0B-3F65735FD3C5/";
-            "group.com.apple.weather" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/BB6E1004-823D-42CD-B5AE-980B92F18060/";
+            "243LU875E5.groups.com.apple.podcasts" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000067/";
+            "group.com.apple.bridge" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000068/";
+            "group.com.apple.iBooks" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000069/";
+            "group.com.apple.mail" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006A/";
+            "group.com.apple.stocks" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006B/";
+            "group.com.apple.weather" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006C/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -56,11 +56,11 @@
         CFBundleName = Files;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = 401;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/28D50CD1-C82C-40BE-83AF-752B8ECA80BF/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-00000000006D/";
         GroupContainers =         {
-            "group.com.apple.DocumentManager" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/9F81392A-BE90-4B4A-BBF1-2C8EB3A4CADF/";
-            "group.com.apple.FileProvider.LocalStorage" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/CB760193-98E8-428D-81B6-DFD1C72844EF/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
+            "group.com.apple.DocumentManager" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006E/";
+            "group.com.apple.FileProvider.LocalStorage" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006F/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -120,10 +120,10 @@
         CFBundleName = Fitness;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "1.0";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/2B335DA8-CA67-40F2-BAEF-EAA382040AF5/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000071/";
         GroupContainers =         {
-            "group.com.apple.Fitness" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/29A8BD2A-48A4-47A1-9C48-1E60554FD6E1/";
-            "group.com.apple.weather" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/BB6E1004-823D-42CD-B5AE-980B92F18060/";
+            "group.com.apple.Fitness" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000072/";
+            "group.com.apple.weather" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006C/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -163,10 +163,10 @@
         CFBundleName = Health;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "7027.0.72.2.7";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/AFA58EBE-D578-41FA-A48C-E6362AC0ACA5/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000073/";
         GroupContainers =         {
-            "group.com.apple.Health" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/D27336AB-99FB-4B7F-B0D6-2CEF768C541E/";
-            "group.com.apple.ip.redirects" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/0F56335F-93A8-42CA-8EEE-F1EF9037AB11/";
+            "group.com.apple.Health" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000074/";
+            "group.com.apple.ip.redirects" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000075/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -186,10 +186,10 @@
         CFBundleName = Maps;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "2972.30.6.12.58";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/DB321181-FC32-4DE3-A6C7-AC7FFAFBB877/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000076/";
         GroupContainers =         {
-            "group.com.apple.Maps" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/B7182F57-07EC-4C9E-B142-FBCCAFFF41B7/";
-            "group.com.apple.weather.internal" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/AAE47B5D-3728-4891-B6BC-FE41641FB195/";
+            "group.com.apple.Maps" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000077/";
+            "group.com.apple.weather.internal" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000078/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -209,9 +209,9 @@
         CFBundleName = Contacts;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "1.0";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/F7F74BB1-69DF-42B5-A103-93388626C838/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000079/";
         GroupContainers =         {
-            "group.com.apple.SuggestedImage.SharedSecureContainer" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/92AB3732-66C9-4C11-BE29-482EE477EF41/";
+            "group.com.apple.SuggestedImage.SharedSecureContainer" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007A/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -232,14 +232,14 @@
         CFBundleName = MobileSMS;
         CFBundleShortVersionString = "26.0";
         CFBundleVersion = "1491.100.1.2.25";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/A2B14268-5E7B-4DA4-97AA-79698E3D83BC/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-00000000007B/";
         GroupContainers =         {
-            "group.com.apple.PegasusConfiguration" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/1396A06F-F625-4E4F-AFDE-A40D47C5BB62/";
-            "group.com.apple.SuggestedImage.SharedSecureContainer" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/92AB3732-66C9-4C11-BE29-482EE477EF41/";
-            "group.com.apple.hashtagImages" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/FA95B49A-F776-425B-A9E8-FBB493671878/";
-            "group.com.apple.mobileslideshow.PhotosFileProvider" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/C0DF698A-3B7D-4EC9-91A3-B7E1B2530283/";
-            "group.com.apple.safari" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/DA24A59E-D8FC-4E8E-8B07-17380B184FBA/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
+            "group.com.apple.PegasusConfiguration" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007C/";
+            "group.com.apple.SuggestedImage.SharedSecureContainer" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007A/";
+            "group.com.apple.hashtagImages" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007D/";
+            "group.com.apple.mobileslideshow.PhotosFileProvider" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007E/";
+            "group.com.apple.safari" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000007F/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -279,9 +279,9 @@
         CFBundleName = Wallet;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "1695.1.4";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/9A450EAF-F223-4BBF-A257-1FAA1075A357/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000080/";
         GroupContainers =         {
-            "com.apple.CoreODI" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/4C22DE81-78D2-4325-A48B-782681731B56/";
+            "com.apple.CoreODI" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000081/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -301,7 +301,7 @@
         CFBundleName = Passwords;
         CFBundleShortVersionString = "3.0";
         CFBundleVersion = "8625.1.29.10.29";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/02C94CC8-0317-4341-B90F-6BBDA92AE4EE/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000082/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -422,7 +422,7 @@
         CFBundleName = Preview;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = 1034;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/6453DA57-EFE6-4D39-B714-782725030707/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000083/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -443,7 +443,7 @@
         CFBundleName = "Xcode Previews";
         CFBundleShortVersionString = "16.0";
         CFBundleVersion = "24.0.45.1";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/54B5569A-8087-4C8D-8F16-CE184D731911/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000084/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -500,7 +500,7 @@
         CFBundleExecutable = SiriApp;
         CFBundleIdentifier = "com.apple.SiriApp";
         CFBundleName = SiriApp;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/15C60546-9D52-4A0E-961C-131EEAF19EE9/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000085/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -541,10 +541,10 @@
         CFBundleName = TVRemote;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = 1;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/55647401-6545-44B6-973C-FD1DFE3A2849/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000086/";
         GroupContainers =         {
-            "group.com.apple.TVRemote" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/854DFB59-E798-4116-B774-94670C2CB14A/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
+            "group.com.apple.TVRemote" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000087/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -564,7 +564,7 @@
         CFBundleName = VoiceOverTouch;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = "1.0";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/296CB02D-28E0-4FDC-8DCF-F2CD2F344517/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000088/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -625,7 +625,7 @@
         CFBundleName = FullKeyboardAccess;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = 1;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/85AE20EE-3541-4AC3-B31D-08611A30E78F/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000089/";
         GroupContainers =         {
         };
         IsAppClip = 0;
@@ -666,11 +666,11 @@
         CFBundleName = MobileCal;
         CFBundleShortVersionString = "1.0";
         CFBundleVersion = 1;
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/847F9079-5350-42D2-9827-A990F6B8E27F/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-00000000008A/";
         GroupContainers =         {
-            "group.com.apple.assistant.shared" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/EA10DC98-E307-49FB-B1C4-1B741895FF01/";
-            "group.com.apple.reminders" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/5C12600C-1FB5-44FC-AF5D-B59B97A93FB6/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
+            "group.com.apple.assistant.shared" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008B/";
+            "group.com.apple.reminders" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008C/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -690,11 +690,11 @@
         CFBundleName = MobileSafari;
         CFBundleShortVersionString = "27.0";
         CFBundleVersion = "8625.1.29.10.29";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/A68C9DC7-9ABA-4CCA-A9E0-22DB387B09D8/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-00000000008D/";
         GroupContainers =         {
-            "group.com.apple.BrowserKit" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/DFA1D491-C727-472A-8B6F-3C43D027DB0B/";
-            "group.com.apple.sports" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/9ADE0F11-D85C-4787-8FD9-A345A51699D5/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
+            "group.com.apple.BrowserKit" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008E/";
+            "group.com.apple.sports" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008F/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -734,13 +734,13 @@
         CFBundleName = News;
         CFBundleShortVersionString = "12.0";
         CFBundleVersion = "5934.3";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/7D774D8D-2959-4F26-AF01-396DB13E9891/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000090/";
         GroupContainers =         {
-            "group.com.apple.news" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/2D4ACC68-1722-43AF-8FF5-E6FB43FFD72D/";
-            "group.com.apple.newsd" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/CA2A7638-8A00-4F97-9F97-452D57D883CB/";
-            "group.com.apple.stocks-news" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/21BED893-C305-44C3-9D3B-C75DCCDA327F/";
-            "group.com.apple.weather" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/BB6E1004-823D-42CD-B5AE-980B92F18060/";
-            "group.tvappservices.container" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/CC9A3EB6-D76F-4DBE-8788-512B172F1EF8/";
+            "group.com.apple.news" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000091/";
+            "group.com.apple.newsd" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000092/";
+            "group.com.apple.stocks-news" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000093/";
+            "group.com.apple.weather" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000006C/";
+            "group.tvappservices.container" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000094/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -760,10 +760,10 @@
         CFBundleName = Reminders;
         CFBundleShortVersionString = "7.0";
         CFBundleVersion = "4046.11";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/58F021A1-2112-4250-A8E6-7A17BCDA5654/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000095/";
         GroupContainers =         {
-            "group.com.apple.assistant.shared" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/EA10DC98-E307-49FB-B1C4-1B741895FF01/";
-            "group.com.apple.reminders" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/5C12600C-1FB5-44FC-AF5D-B59B97A93FB6/";
+            "group.com.apple.assistant.shared" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008B/";
+            "group.com.apple.reminders" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-00000000008C/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -783,12 +783,12 @@
         CFBundleName = Shortcuts;
         CFBundleShortVersionString = "10.0";
         CFBundleVersion = "5037.109";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/FCAE6925-3FF0-4AAA-BFA5-3E92880C9736/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-000000000096/";
         GroupContainers =         {
-            "group.com.apple.shortcuts" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/3666BAA3-C1ED-4022-A13E-7B12DA41460C/";
-            "group.com.apple.tipsnext" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/7114E90F-EB2F-4143-BFBE-C92E61BC1FC0/";
-            "group.is.workflow.my.app" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/DA3CA84D-B0E5-4273-AF8D-03C0283EBA8E/";
-            "group.is.workflow.shortcuts" = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Shared/AppGroup/2F6CB3E7-F154-407B-8245-E0D70D1589DB/";
+            "group.com.apple.shortcuts" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000097/";
+            "group.com.apple.tipsnext" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000070/";
+            "group.is.workflow.my.app" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000098/";
+            "group.is.workflow.shortcuts" = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Shared/AppGroup/00000000-0000-4000-8000-000000000099/";
         };
         IsAppClip = 0;
         IsDeveloperApp = 0;
@@ -828,7 +828,7 @@
         CFBundleName = Web;
         CFBundleShortVersionString = 8625;
         CFBundleVersion = "8625.1.29.10.29";
-        DataContainer = "file:///Users/demo/Library/Developer/CoreSimulator/Devices/88B9E268-8B16-46BA-9E47-E32495BCE547/data/Containers/Data/Application/5C35C145-93DA-4B89-BD90-904C4A1A55F4/";
+        DataContainer = "file:///Users/fixture-user/Library/Developer/CoreSimulator/Devices/00000000-0000-4000-8000-000000000065/data/Containers/Data/Application/00000000-0000-4000-8000-00000000009A/";
         GroupContainers =         {
         };
         IsAppClip = 0;

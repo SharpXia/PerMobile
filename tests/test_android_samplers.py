@@ -665,7 +665,7 @@ UTC_STUB = "2026-09-08T00:00:00.000Z"
 def _stat_text(cycles: int) -> str:
     """在 golden proc_stat.txt（第 0 周期，真机 8 核格式脱敏）上叠加 cycles 个窗口的 jiffies。
 
-    guest/guest_nice（第 9/10 列）为正值合成样本（在网真机 RFCX701D8KR 实测 guest=0，
+    guest/guest_nice（第 9/10 列）为正值合成样本（在网真机实测 guest=0，
     见 2026-11-10 体检），按 proc(5) 语义取 guest ⊆ user 的量级，且跨窗口恒定（Δguest=0）——
     busy% 手算值不受其影响；Δguest>0 的双写修正演示见专项用例
     （test_cpu_busy_pct_excludes_guest_double_count / test_cpu_sampler_guest_delta_skipped_in_total_pct）。

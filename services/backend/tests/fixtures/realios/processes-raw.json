@@ -704,7 +704,7 @@
     "processIdentifier": 14325
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/D6E94438-0B0A-4EA4-8407-0D6CD6DD8E11/AlipayWallet.app/AlipayWallet",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000004/ExampleApp2.app/ExampleApp2",
     "processIdentifier": 14367
    },
    {
@@ -908,7 +908,7 @@
     "processIdentifier": 15013
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/0A61B368-F578-4158-BBB5-3505D11437EC/WeChat.app/WeChat",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000005/ExampleApp3.app/ExampleApp3",
     "processIdentifier": 15014
    },
    {
@@ -964,7 +964,7 @@
     "processIdentifier": 15059
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/3037E108-4C05-4330-88F7-28E96A07DFE7/Weather.app/PlugIns/WeatherWidget.appex/WeatherWidget",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000006/ExampleApp4.app/PlugIns/ExampleApp4Extension1.appex/ExampleApp4Extension1",
     "processIdentifier": 15060
    },
    {
@@ -1012,7 +1012,7 @@
     "processIdentifier": 15092
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/BF4CFFAA-9757-407F-B9FB-8707B39842A3/wxkb.app/PlugIns/wxkb_plugin.appex/wxkb_plugin",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000007/ExampleApp5.app/PlugIns/ExampleApp5Extension1.appex/ExampleApp5Extension1",
     "processIdentifier": 15094
    },
    {
@@ -1048,7 +1048,7 @@
     "processIdentifier": 15119
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/46C5BBB2-8A45-4FE2-8FD9-1C33C3714361/Music.app/Music",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000008/ExampleApp6.app/ExampleApp6",
     "processIdentifier": 15120
    },
    {
@@ -1148,7 +1148,7 @@
     "processIdentifier": 15294
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/EFC2E9D3-6E8F-4B15-9224-FD1966ABFFFC/discover.app/discover",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000009/ExampleApp7.app/ExampleApp7",
     "processIdentifier": 15296
    },
    {
@@ -1168,7 +1168,7 @@
     "processIdentifier": 15331
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/DF249FCD-2051-41FA-9367-7CFA5D5C0C35/AgentTool.app/AgentTool",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-000000000001/AgentTool.app/AgentTool",
     "processIdentifier": 15334
    },
    {
@@ -1192,7 +1192,7 @@
     "processIdentifier": 15374
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/7E84BB7E-4449-4217-82C1-DD868E5C3C62/Runner.app/PlugIns/RunnerExt-NotificationService.appex/RunnerExt-NotificationService",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-00000000000A/Runner.app/PlugIns/RunnerExt-NotificationService.appex/RunnerExt-NotificationService",
     "processIdentifier": 15377
    },
    {
@@ -1204,15 +1204,15 @@
     "processIdentifier": 15381
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/3793DDF1-F1FA-4CAF-92A3-681D24202D03/Lark.app/Lark",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-00000000000B/ExampleApp8.app/ExampleApp8",
     "processIdentifier": 15385
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/3793DDF1-F1FA-4CAF-92A3-681D24202D03/Lark.app/PlugIns/SmartWidgetExtension.appex/SmartWidgetExtension",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-00000000000B/ExampleApp8.app/PlugIns/ExampleApp8Extension1.appex/ExampleApp8Extension1",
     "processIdentifier": 15386
    },
    {
-    "executable": "file:///private/var/containers/Bundle/Application/3793DDF1-F1FA-4CAF-92A3-681D24202D03/Lark.app/PlugIns/IntentsExtension.appex/IntentsExtension",
+    "executable": "file:///private/var/containers/Bundle/Application/00000000-0000-4000-8000-00000000000B/ExampleApp8.app/PlugIns/ExampleApp8Extension2.appex/ExampleApp8Extension2",
     "processIdentifier": 15387
    },
    {

@@ -24,7 +24,7 @@ PYTHON_VERSION = (3, 14, 10)
 NODE_VERSION = "v24.21.0"
 
 
-def run(*args: str | Path, cwd: Path = ROOT, env: dict[str, str] | None = None) -> None:
+def run(*args: str | Path, cwd: Path = ROOT, env: dict[str, str]) -> None:
     subprocess.run([str(arg) for arg in args], cwd=cwd, env=env, check=True)
 
 
@@ -33,11 +33,15 @@ def main() -> None:
         raise SystemExit("Run the release build on Windows x64 with x64 Python.")
     if sys.version_info[:3] != PYTHON_VERSION or platform.architecture()[0] != "64bit":
         raise SystemExit(f"Install x64 CPython {'.'.join(map(str, PYTHON_VERSION))} for the build.")
+    build_env = {
+        key: value for key, value in os.environ.items()
+        if not key.upper().startswith(("CSC_", "WIN_CSC_", "APPLE_"))
+    }
     node = shutil.which("node.exe")
     npm = shutil.which("npm.cmd")
-    if not node or not npm or subprocess.check_output([node, "--version"], text=True).strip() != NODE_VERSION:
+    if not node or not npm or subprocess.check_output([node, "--version"], env=build_env, text=True).strip() != NODE_VERSION:
         raise SystemExit(f"Install x64 Node.js {NODE_VERSION[1:]} with npm for the build.")
-    if subprocess.check_output([node, "-p", "process.arch"], text=True).strip() != "x64":
+    if subprocess.check_output([node, "-p", "process.arch"], env=build_env, text=True).strip() != "x64":
         raise SystemExit("Use x64 Node.js for the release build.")
 
     version = json.loads((DESKTOP / "package.json").read_text(encoding="utf-8"))["version"]
@@ -46,22 +50,22 @@ def main() -> None:
         raise SystemExit(f"Tag {expected_tag} must match the desktop package version {version}.")
 
     venv = WORK / "venv"
-    run(sys.executable, "-m", "venv", "--clear", venv)
+    run(sys.executable, "-m", "venv", "--clear", venv, env=build_env)
     python = venv / "Scripts" / "python.exe"
-    run(python, "-m", "pip", "install", "--only-binary=:all:", "-r", ROOT / "packaging/pyinstaller/electron-requirements.txt")
-    run(python, "-m", "pip", "install", "--no-build-isolation", "--no-deps", "-e", ".")
-    run(python, "-m", "pip", "check")
+    run(python, "-m", "pip", "install", "--only-binary=:all:", "-r", ROOT / "packaging/pyinstaller/electron-requirements.txt", env=build_env)
+    run(python, "-m", "pip", "install", "--no-build-isolation", "--no-deps", "-e", ".", env=build_env)
+    run(python, "-m", "pip", "check", env=build_env)
 
-    run(npm, "ci", cwd=FRONTEND)
+    run(npm, "ci", cwd=FRONTEND, env=build_env)
     frontend_dist = WORK / "frontend"
-    run(npm, "run", "build", "--", "--outDir", "../../build/windows-electron/frontend", "--emptyOutDir", cwd=FRONTEND)
+    run(npm, "run", "build", "--", "--outDir", "../../build/windows-electron/frontend", "--emptyOutDir", cwd=FRONTEND, env=build_env)
 
     frozen = WORK / "frozen"
     run(
         python, "-m", "PyInstaller", "--noconfirm", "--clean",
         "--distpath", frozen, "--workpath", WORK / "pyinstaller",
         ROOT / "packaging" / "pyinstaller" / "perfeval-backend.spec",
-        env={**os.environ, "PERFEVAL_FRONTEND_DIST": str(frontend_dist)},
+        env={**build_env, "PERFEVAL_FRONTEND_DIST": str(frontend_dist)},
     )
     STAGING.mkdir(parents=True, exist_ok=True)
     for resource in ("backend", "platform-tools"):
@@ -69,14 +73,18 @@ def main() -> None:
         if path.exists():
             shutil.rmtree(path)
     shutil.move(frozen / "perfeval-backend", STAGING / "backend")
-    run(python, HERE / "stage-adb.py", "--output", STAGING / "platform-tools")
+    run(python, HERE / "stage-adb.py", "--output", STAGING / "platform-tools", env=build_env)
 
-    run(npm, "ci", cwd=DESKTOP)
+    run(npm, "ci", cwd=DESKTOP, env=build_env)
+    signing_env = {
+        key: value for key, value in os.environ.items()
+        if not key.upper().startswith("APPLE_")
+    }
     run(npm, "run", "dist", "--", "--win", "nsis", "--x64", "--publish", "never",
-        "--config.directories.output=dist/windows-x64", cwd=DESKTOP)
+        "--config.directories.output=dist/windows-x64", cwd=DESKTOP, env=signing_env)
 
     installer = OUTPUT / f"PerfEval-Desktop-{version}-windows-x64-setup.exe"
-    run(python, HERE / "smoke-electron.py", OUTPUT / "win-unpacked")
+    run(python, HERE / "smoke-electron.py", OUTPUT / "win-unpacked", env=build_env)
     with installer.open("rb") as stream:
         digest = hashlib.file_digest(stream, "sha256").hexdigest()
     installer.with_suffix(".exe.sha256").write_text(f"{digest}  {installer.name}\n", encoding="ascii", newline="\n")

@@ -5,7 +5,7 @@
 平台门），无真机/模拟器依赖，如实声明：
 
 - devicectl 语料复用 S1 执行面 golden（tests/fixtures/realios/，2026-11-16 真机
-  iPhone 15 Pro Max iOS 27.2.1 xcrun 651.32 实测原文）；真机 iOS 源直接换装 S1
+  iPhone 15 Pro Max iOS 27.2.1 xcrun 651.32 脱敏实测）；真机 iOS 源直接换装 S1
   ``RealIOSProvider``（S4 合流点不重复实现 devicectl 命令面）；
 - 采集执行面为 S1 ``realios_sampler.RealIOSCollector``（§26.4 窗口批采样）——
   分流断言走真实类面（loader 懒加载已激活）；S1 未落地路径（501）以 monkeypatch
@@ -55,12 +55,12 @@ REALIOS_FIXTURES = Path(__file__).resolve().parent / "fixtures" / "realios"
 # 模拟器行（UDID；devicectl 输出中 reality="simulated"/transport sameMachine，
 # §26.1 三过滤规则拦下，避免与 simctl 源双源重复行）
 IPHONE_ID = "00008130-000955B7C2D1E84A"
-SIMULATED_UDID_IN_DEVICECTL = "E7B7114A-68BC-4C9D-945E-B9EA150894B1"
+SIMULATED_UDID_IN_DEVICECTL = "00000000-0000-4000-8000-00000000009B"
 WATCH_ID = "00008310-000D55AA11BB77CD"
 UNPAIRED_ECID_ID = "8D3E5A70-C1F4-59B2-A6D8-2E4F6A8C0D1E"
 ANDROID_SERIAL = "R3CN80ABCDEF"
 ANDROID_WIFI_ID = f"{ANDROID_SERIAL}-wifi"
-SIM_UDID = "AA046B81-B431-42A2-9E8B-59F69B7689B6"
+SIM_UDID = "00000000-0000-4000-8000-00000000009D"
 IOS_APP = "com.perfeval.agenttool"
 TARGET_APP = "com.example.iosapp"
 
